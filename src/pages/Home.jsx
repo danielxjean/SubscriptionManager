@@ -33,20 +33,20 @@ export default function Home() {
 
         return(
           <View>
-            {/*<Header*/}
-            {/*  leftComponent={{ icon: 'add', color: '#fff', onPress: () => addSubscription() }}*/}
-            {/*  centerComponent={{ text: 'Subscription Manager', style: { color: '#fff' } }}*/}
-            {/*  rightComponent={{ text: 'Logout', style: { color: '#fff' }, onPress: () => logout() }}*/}
-            {/*  containerStyle={{*/}
-            {/*    backgroundColor: '#1A282F',*/}
-            {/*    justifyContent: 'space-around',*/}
-            {/*  }}*/}
-            {/*    />*/}
+            <Header
+              leftComponent={{ icon: 'add', color: '#fff', onPress: () => addSubscription() }}
+              centerComponent={{ text: 'Subscription Manager', style: { color: '#fff' } }}
+              rightComponent={{ text: 'Logout', style: { color: '#fff' }, onPress: () => logout() }}
+              containerStyle={{
+                backgroundColor: '#1A282F',
+                justifyContent: 'space-around',
+              }}
+                />
 
-            <View style = {{ backgroundColor: '#FFC542', height: '100%'}}>
+            <View style = {{ backgroundColor: '#1A282F', height: '80%'}}>
 
-                <Card style={styles.card}>
-                  <Card.Content >
+                <Card>
+                  <Card.Content style={styles.card}>
                     <Title>Monthly Cost</Title>
                     <Paragraph>123$</Paragraph>
                   </Card.Content>
@@ -132,9 +132,12 @@ const styles = StyleSheet.create({
     height: 48,
     borderRadius: 20,
     overflow: 'hidden',
+    backgroundColor: '#FFC542',
     marginTop: 40,
     marginBottom: 50,
-    marginLeft: 30,
+    marginLeft: 15,
     marginRight: 30,
+    textAlign: "center",
+    paddingBottom: 20
   }
 });
