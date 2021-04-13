@@ -9,7 +9,7 @@ export default function LandingPage({ navigation }) {
     <View style={styles.container}>
     <ImageBackground source={image} style={styles.image}>
       <Text h1 style={styles.text}>
-        Welcome to the Subscription Manager
+        Subscription Manager
       </Text>
       <Button
         mode="contained"
@@ -27,6 +27,12 @@ export default function LandingPage({ navigation }) {
         mode="contained"
         onPress={() => navigation.navigate('Home')}
         title="Home (temporary)"
+        buttonStyle={styles.button}
+      /> 
+      <Button
+        mode="contained"
+        onPress={() => navigation.navigate('AddSubscription')}
+        title="AddSubscription (temporary)"
         buttonStyle={styles.button}
       /> 
       </ImageBackground>

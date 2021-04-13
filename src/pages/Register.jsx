@@ -4,6 +4,8 @@ import { Header, Button, Text } from 'react-native-elements';
 import { emailValidator } from '../helpers/emailValidator';
 import { passwordValidator } from '../helpers/passwordValidator';
 import { nameValidator } from '../helpers/nameValidator';
+import { firebase } from '../../database/firebase/';
+import WavyHeader from '../components/WavyHeader';
 
 export default function Register({ navigation }) {
   const [name, setName] = useState({ value: '', error: '' })
@@ -30,8 +32,13 @@ export default function Register({ navigation }) {
 
   return (
     // <ImageBackground>
-    <View>
-      <Header centerComponent={{ text: 'Register', style: { color: '#fff' } }} />
+    <View style={{backgroundColor: '#40DF9F', height: '100%'}}>
+      <WavyHeader customStyles={styles.svgCurve} />
+          <View style={styles.headerContainer}>
+            <Text style={styles.headerText}>Subscription Manager</Text>
+          </View>
+      <View style={{ paddingTop: 200 }}>
+
       <TextInput
         label="Username"   
         placeholder="Username"   
@@ -40,6 +47,7 @@ export default function Register({ navigation }) {
         error={!!name.error}
         errorText={name.error}
         style={styles.input}
+        placeholderTextColor="white"
       />
       <TextInput
         label="Email"
@@ -53,6 +61,7 @@ export default function Register({ navigation }) {
         textContentType="emailAddress"
         keyboardType="email-address"
         style={styles.input}
+        placeholderTextColor="white"
       />
       <TextInput
         label="Password"
@@ -64,12 +73,13 @@ export default function Register({ navigation }) {
         errorText={password.error}
         secureTextEntry
         style={styles.input}
+        placeholderTextColor="white"
       />
       <Button
         mode="contained"
         onPress={onSignUpPressed}
-        style={{ marginTop: 24 }}
         title="Sign Up"
+        buttonStyle={styles.button}
       />     
       <View style={styles.signin}>
         <Text>Already have an account? </Text>
@@ -78,7 +88,7 @@ export default function Register({ navigation }) {
         </TouchableOpacity>
       </View>
     </View>
-    // </ImageBackground>
+    </View>
   )
 }
 
@@ -87,20 +97,46 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginTop: 4,
   },
-  header: {
-      fontSize: 12,
-  },
-  input: {
-    margin: 15,
-    height: 40,
-    borderColor: '#7a42f4',
-    borderWidth: 1,
-    borderRadius: 10
-  },
   signin: {
     fontSize: 13,
     width: '100%',
     alignItems: 'flex-end',
     marginBottom: 24,
-  }
+    paddingRight: 20
+  },
+  button: {
+    height: 48,
+    overflow: 'hidden',
+    backgroundColor: '#1A282F',
+    borderWidth: 1,
+    borderRadius: 15,
+    marginTop: 10,
+    marginBottom: 10,
+    marginLeft: 30,
+    marginRight: 30,
+    paddingLeft: 16     
+ },
+ input: {
+  height: 48,
+  borderRadius: 5,
+  overflow: 'hidden',
+  backgroundColor: '#1A282F',
+  marginTop: 10,
+  marginBottom: 10,
+  marginLeft: 30,
+  marginRight: 30,
+  paddingLeft: 16
+},
+svgCurve: {
+  position: 'absolute',
+  width: '100%',
+  height: '20%'
+},
+headerText: {
+  fontSize: 25,
+  fontWeight: 'bold',
+  color: '#fff',
+  textAlign: 'center',
+  marginTop: 40
+}
 })
