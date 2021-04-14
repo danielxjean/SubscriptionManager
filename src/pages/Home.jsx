@@ -4,6 +4,7 @@ import { FlatList, Keyboard, Text, Alert, TextInput, TouchableOpacity, View, Sty
 import {Header} from 'react-native-elements';
 // import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Card, Title, Paragraph } from 'react-native-paper';
+//import FooterBar from '../components/FooterBar';
 
 // import Settings from './Settings';
 // import Subscriptions from './Subscriptions';
@@ -32,6 +33,7 @@ export default function Home() {
   const [entityText, setEntityText] = useState('');
 
         return(
+          <div>
           <View>
             {/*<Header*/}
             {/*  leftComponent={{ icon: 'add', color: '#fff', onPress: () => addSubscription() }}*/}
@@ -75,6 +77,8 @@ export default function Home() {
                     <Tab.Screen name="Menu" component={Menu} />
               </Tab.Navigator> */}
           </View>
+         
+          </div>
           
         );
 
