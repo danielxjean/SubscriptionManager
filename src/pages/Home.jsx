@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react'
 
-import { FlatList, Keyboard, Text, Alert, TextInput, TouchableOpacity, View, StyleSheet } from 'react-native'
+import { FlatList, Keyboard, Text, Alert, TextInput,StatusBar, TouchableOpacity, View, StyleSheet } from 'react-native'
 import {Header} from 'react-native-elements';
 // import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Card, Title, Paragraph } from 'react-native-paper';
-//import FooterBar from '../components/FooterBar';
+import {Card, Title, Paragraph, Headline} from 'react-native-paper';
 
 // import Settings from './Settings';
 // import Subscriptions from './Subscriptions';
@@ -33,7 +32,6 @@ export default function Home() {
   const [entityText, setEntityText] = useState('');
 
         return(
-          <div>
           <View>
             {/*<Header*/}
             {/*  leftComponent={{ icon: 'add', color: '#fff', onPress: () => addSubscription() }}*/}
@@ -47,13 +45,15 @@ export default function Home() {
 
             <View style = {{ backgroundColor: '#FFC542', height: '100%'}}>
 
-                <Card style={styles.card}>
+                <Card style={styles.monthlyCard}>
                   <Card.Content>
-                    <Title>Monthly Cost</Title>
-                    <Paragraph>123$</Paragraph>
+                    <Title style={{textAlign:"center"}}>Monthly Cost</Title>
+                    <Headline style={{textAlign:"center"}}>123$</Headline>
                   </Card.Content>
                 </Card>
 
+              <Card style={styles.buttonCard}>
+                <Card.Content>
                 <TouchableOpacity style={styles.button} onPress={addSubscription}>
                     <Text style={styles.buttonText}>Add Subscription</Text>
                 </TouchableOpacity>
@@ -69,16 +69,16 @@ export default function Home() {
                 <TouchableOpacity style={styles.button} onPress={upcomingPayments}>
                     <Text style={styles.buttonText}>Upcoming Payments</Text>
                 </TouchableOpacity>
+                </Card.Content>
+              </Card>
             </View>
 
-              {/* <Tab.Navigator>
-                    <Tab.Screen name="Subscriptions" component={Subscriptions}  />
-                    <Tab.Screen name="Settings" component={Settings} />
-                    <Tab.Screen name="Menu" component={Menu} />
-              </Tab.Navigator> */}
+            {/*<Tab.Navigator>*/}
+            {/*        <Tab.Screen name="Subscriptions" component={Subscriptions}  />*/}
+            {/*        <Tab.Screen name="Settings" component={Settings} />*/}
+            {/*        <Tab.Screen name="Menu" component={Menu} />*/}
+            {/*  </Tab.Navigator>*/}
           </View>
-         
-          </div>
           
         );
 
@@ -119,7 +119,6 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     marginLeft: 30,
     marginRight: 30,
-    paddingLeft: 16     
  },
   input: {
     height: 48,
@@ -132,15 +131,18 @@ const styles = StyleSheet.create({
     marginRight: 30,
     paddingLeft: 16
   },
-  card: {
-    height: 48,
+  monthlyCard: {
     borderRadius: 20,
     overflow: 'hidden',
     marginTop: 40,
     marginBottom: 50,
     marginLeft: 30,
     marginRight: 30,
-    textAlign: "center",
-    paddingBottom: 20
+  },
+  buttonCard: {
+    borderRadius: 20,
+    overflow: 'hidden',
+    height:'100%',
+    backgroundColor: '#2A3C44',
   }
 });
