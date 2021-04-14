@@ -30,8 +30,11 @@ Alert.alert("Button for log out (TODO)!");
 export default function Home(effect, deps) {
   const backgroundColor='#FFC542';
  useEffect(()=>{
-   StatusBar.setBarStyle( 'light-content',true)
-   StatusBar.setBackgroundColor(backgroundColor)
+   if (Platform.OS == 'android') {
+     StatusBar.setBarStyle('light-content', true)
+     StatusBar.setBackgroundColor(backgroundColor)
+   }
+
   }, [])
 
   const [entityText, setEntityText] = useState('');
@@ -47,7 +50,6 @@ export default function Home(effect, deps) {
             {/*    justifyContent: 'space-around',*/}
             {/*  }}*/}
             {/*    />*/}
-
             <View style = {{ backgroundColor: backgroundColor, height: '100%'}}>
 
                 <Card style={styles.monthlyCard}>
@@ -60,19 +62,19 @@ export default function Home(effect, deps) {
               <Card style={styles.buttonCard}>
                 <Card.Content>
                 <TouchableOpacity style={styles.button} onPress={addSubscription}>
-                    <Text style={styles.buttonText}>Add Subscription</Text>
+                    <Title style={styles.buttonText}>Add Subscription</Title>
                 </TouchableOpacity>
 
                 <TouchableOpacity style={styles.button} onPress={manageSubscription}>
-                    <Text style={styles.buttonText}>Manage Subscriptions</Text>
+                    <Title style={styles.buttonText}>Manage Subscriptions</Title>
                 </TouchableOpacity>
 
                 <TouchableOpacity style={styles.button} onPress={statistics}>
-                    <Text style={styles.buttonText}>Statistics</Text>
+                    <Title style={styles.buttonText}>Statistics</Title>
                 </TouchableOpacity>
 
                 <TouchableOpacity style={styles.button} onPress={upcomingPayments}>
-                    <Text style={styles.buttonText}>Upcoming Payments</Text>
+                    <Title style={styles.buttonText}>Upcoming Payments</Title>
                 </TouchableOpacity>
                 </Card.Content>
               </Card>
@@ -84,7 +86,7 @@ export default function Home(effect, deps) {
             {/*        <Tab.Screen name="Menu" component={Menu} />*/}
             {/*  </Tab.Navigator>*/}
           </View>
-          
+
         );
 
 }
@@ -107,7 +109,6 @@ const styles = StyleSheet.create({
     fontSize: 42,
     fontWeight: "bold",
     textAlign: "center",
-    backgroundColor: "#000000a0"
   },
   buttonText: {
     textAlign: "center",
@@ -117,6 +118,7 @@ const styles = StyleSheet.create({
   button: {
     height: 48,
     overflow: 'hidden',
+    justifyContent: 'center',
     backgroundColor: '#40DF9F',
     borderWidth: 1,
     borderRadius: 15,
