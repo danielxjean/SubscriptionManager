@@ -4,6 +4,7 @@ import { FlatList, Keyboard, Text, Alert, TextInput,StatusBar, TouchableOpacity,
 import {Header} from 'react-native-elements';
 // import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import {Card, Title, Paragraph, Headline} from 'react-native-paper';
+import { LinearGradient } from 'expo-linear-gradient';
 
 // import Settings from './Settings';
 // import Subscriptions from './Subscriptions';
@@ -61,20 +62,41 @@ export default function Home(effect, deps) {
 
               <Card style={styles.buttonCard}>
                 <Card.Content>
+
                 <TouchableOpacity style={styles.button} onPress={addSubscription}>
+                  <LinearGradient
+                    // Button Linear Gradient
+                    colors={['#9FC6FF', '#6993FF', '#516AC2']}
+                    height={'100%'}>
                     <Title style={styles.buttonText}>Add Subscription</Title>
+                </LinearGradient>
                 </TouchableOpacity>
 
                 <TouchableOpacity style={styles.button} onPress={manageSubscription}>
+                  <LinearGradient
+                      // Button Linear Gradient
+                      colors={['#9FC6FF', '#6993FF', '#516AC2']}
+                      height={'100%'}>
                     <Title style={styles.buttonText}>Manage Subscriptions</Title>
+                  </LinearGradient>
                 </TouchableOpacity>
 
                 <TouchableOpacity style={styles.button} onPress={statistics}>
+                  <LinearGradient
+                      // Button Linear Gradient
+                      colors={['#9FC6FF', '#6993FF', '#516AC2']}
+                      height={'100%'}>
                     <Title style={styles.buttonText}>Statistics</Title>
+                  </LinearGradient>
                 </TouchableOpacity>
 
                 <TouchableOpacity style={styles.button} onPress={upcomingPayments}>
+                  <LinearGradient
+                      // Button Linear Gradient
+                      colors={['#9FC6FF', '#6993FF', '#516AC2']}
+                      height={'100%'}>
                     <Title style={styles.buttonText}>Upcoming Payments</Title>
+                  </LinearGradient>
                 </TouchableOpacity>
                 </Card.Content>
               </Card>
@@ -119,7 +141,6 @@ const styles = StyleSheet.create({
     height: 48,
     overflow: 'hidden',
     justifyContent: 'center',
-    backgroundColor: '#40DF9F',
     borderWidth: 1,
     borderRadius: 15,
     marginTop: 10,
