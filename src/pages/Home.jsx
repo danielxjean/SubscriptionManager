@@ -27,7 +27,12 @@ const logout = () =>
 Alert.alert("Button for log out (TODO)!");
 
 
-export default function Home() {
+export default function Home(effect, deps) {
+  const backgroundColor='#FFC542';
+ useEffect(()=>{
+   StatusBar.setBarStyle( 'light-content',true)
+   StatusBar.setBackgroundColor(backgroundColor)
+  }, [])
 
   const [entityText, setEntityText] = useState('');
 
@@ -43,7 +48,7 @@ export default function Home() {
             {/*  }}*/}
             {/*    />*/}
 
-            <View style = {{ backgroundColor: '#FFC542', height: '100%'}}>
+            <View style = {{ backgroundColor: backgroundColor, height: '100%'}}>
 
                 <Card style={styles.monthlyCard}>
                   <Card.Content>
