@@ -6,6 +6,7 @@ import AddSubscription from './src/pages/AddSubscription';
 import LandingPage from './src/pages/LandingPage.jsx';
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from '@react-navigation/native'
+import ManageSubscriptions from "./src/pages/ManageSubscriptions";
 
 const Stack = createStackNavigator();
 
@@ -53,6 +54,15 @@ function MyStack() {
          {headerLeft: null},
          {headerShown: false}
        }
+      />
+      <Stack.Screen
+          name="ManageSubscriptions"
+          component={ManageSubscriptions}
+          options={
+            { title: 'ManageSubscriptions' },
+          {headerLeft: null} ,
+          {headerShown: false}
+          }
       />
       <Stack.Screen 
        name="LandingPage" 

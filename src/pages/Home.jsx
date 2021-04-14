@@ -11,25 +11,25 @@ import { Card, Title, Paragraph } from 'react-native-paper';
 
 // const Tab = createBottomTabNavigator();
 
-const addSubscription = () => 
-Alert.alert("Button for adding Subscriptions (TODO!");
-
-const manageSubscription = () => 
-Alert.alert("Button for managing Subscriptions (TODO!");
-
-const statistics = () => 
-Alert.alert("Button for statistics (TODO!");
-
-const upcomingPayments = () => 
-Alert.alert("Button for upcomingPayments (TODO!");
-
-const logout = () =>
-Alert.alert("Button for log out (TODO)!");
 
 
-export default function Home() {
 
+export default function Home({ navigation }) {
   const [entityText, setEntityText] = useState('');
+  const addSubscription = () =>
+      Alert.alert("Button for adding Subscriptions (TODO!");
+
+  const manageSubscription = () =>
+      navigation.navigate('ManageSubscriptions');
+
+  const statistics = () =>
+      Alert.alert("Button for statistics (TODO!");
+
+  const upcomingPayments = () =>
+      Alert.alert("Button for upcomingPayments (TODO!");
+
+  const logout = () =>
+      Alert.alert("Button for log out (TODO)!");
 
         return(
           <View>
