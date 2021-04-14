@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { FlatList, Keyboard, Text, Alert, TextInput, TouchableOpacity, View, StyleSheet } from 'react-native'
 import {Header} from 'react-native-elements';
 // import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Card, Title, Paragraph } from 'react-native-paper';
+import {Card, Title, Paragraph, Headline} from 'react-native-paper';
 
 // import Settings from './Settings';
 // import Subscriptions from './Subscriptions';
@@ -47,8 +47,8 @@ export default function Home() {
 
                 <Card style={styles.card}>
                   <Card.Content>
-                    <Title>Monthly Cost</Title>
-                    <Paragraph>123$</Paragraph>
+                    <Title style={{textAlign:"center"}}>Monthly Cost</Title>
+                    <Headline style={{textAlign:"center"}}>123$</Headline>
                   </Card.Content>
                 </Card>
 
@@ -69,11 +69,11 @@ export default function Home() {
                 </TouchableOpacity>
             </View>
 
-              {/* <Tab.Navigator>
-                    <Tab.Screen name="Subscriptions" component={Subscriptions}  />
-                    <Tab.Screen name="Settings" component={Settings} />
-                    <Tab.Screen name="Menu" component={Menu} />
-              </Tab.Navigator> */}
+            {/*<Tab.Navigator>*/}
+            {/*        <Tab.Screen name="Subscriptions" component={Subscriptions}  />*/}
+            {/*        <Tab.Screen name="Settings" component={Settings} />*/}
+            {/*        <Tab.Screen name="Menu" component={Menu} />*/}
+            {/*  </Tab.Navigator>*/}
           </View>
           
         );
@@ -129,14 +129,11 @@ const styles = StyleSheet.create({
     paddingLeft: 16
   },
   card: {
-    height: 48,
     borderRadius: 20,
     overflow: 'hidden',
     marginTop: 40,
     marginBottom: 50,
     marginLeft: 30,
     marginRight: 30,
-    textAlign: "center",
-    paddingBottom: 20
   }
 });
