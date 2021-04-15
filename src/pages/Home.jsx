@@ -1,16 +1,8 @@
 import React, { useEffect, useState } from 'react'
-
 import { FlatList, Keyboard, Text, Alert, TextInput,StatusBar, TouchableOpacity, View, StyleSheet } from 'react-native';
 import {Header} from 'react-native-elements';
-// import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import {Card, Title, Paragraph, Headline} from 'react-native-paper';
 import TabBar from '../components/TabBar.jsx';
-
-// import tings from './Settings';
-// import Subscriptions from './Subscriptions';
-// import Menu from './Menu';
-
-// const Tab = createBottomTabNavigator();
 
 const addSubscription = () =>
 Alert.alert("Button for adding Subscriptions (TODO!");
@@ -39,17 +31,6 @@ export default function Home(effect, deps) {
 
         return(
           <View>
-            {/*<Header*/}
-            {/*  leftComponent={{ icon: 'add', color: '#fff', onPress: () => addSubscription() }}*/}
-            {/*  centerComponent={{ text: 'Subscription Manager', style: { color: '#fff' } }}*/}
-            {/*  rightComponent={{ text: 'Logout', style: { color: '#fff' }, onPress: () => logout() }}*/}
-            {/*  containerStyle={{*/}
-            {/*    backgroundColor: '#1A282F',*/}
-            {/*    justifyContent: 'space-around',*/}
-            {/*  }}*/}
-            {/*    />*/}
-
-
             <View style = {{ backgroundColor: backgroundColor, height: '100%'}}>
 
                 <Card style={styles.monthlyCard}>
@@ -86,13 +67,6 @@ export default function Home(effect, deps) {
             <View>
                 <TabBar style={styles.footer}/>
             </View>
-
-            {/*<Tab.Navigator>*/}
-            {/*        <Tab.Screen name="Subscriptions" component={Subscriptions}  />*/}
-            {/*        <Tab.Screen name="Settings" component={Settings} />*/}
-            {/*        <Tab.Screen name="Menu" component={Menu} />*/}
-            {/*  </Tab.Navigator>*/}
-
 
           </View>
 
