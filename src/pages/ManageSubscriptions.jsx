@@ -2,12 +2,13 @@ import React, {useEffect} from "react";
 import { View, Text,StyleSheet, TouchableOpacity, Alert } from "react-native";
 import {Divider,IconButton, List, Searchbar, Card,Button, Paragraph, Dialog, Portal,Provider } from 'react-native-paper';
 import EntertainmentIcon from '../styles/icon/EntertainmentIcon.png'
-import { firebase, firestore, storage } from "./firebase";
+
 
 
 function serviceIcon(props,icon){
   return <List.Icon {...props} icon={icon}/>
     }
+
 
 export default function ManageSubscriptions() {
   const [searchQuery, setSearchQuery] = React.useState('');
@@ -17,6 +18,10 @@ export default function ManageSubscriptions() {
   const showDialog = () => setVisible(true);
 
   const hideDialog = () => setVisible(false);
+
+
+  const addSubscription = () =>
+      Alert.alert("Button for adding Subscriptions (TODO!");
 
   useEffect(()=>{
     setServices([{name:"Netflix",icon:EntertainmentIcon},{name:"Prime Video",icon:EntertainmentIcon}])
@@ -29,7 +34,7 @@ export default function ManageSubscriptions() {
   return(
         <View style={styles.container}>
           <View style={{marginTop:15}}>
-            <Text style={styles.text}>Manage Subscriptions Page</Text>
+            <Text style={styles.text}>Managesss Subscriptions Page</Text>
           <Searchbar
               style={styles.searchBar}
               inputContainerStyle={styles.searchText}
@@ -52,6 +57,9 @@ export default function ManageSubscriptions() {
 
           ))
           }
+          <TouchableOpacity style={styles.button} onPress={addSubscription}>
+            <Text style={styles.buttonText}>Add Subscription</Text>
+          </TouchableOpacity>
           <Provider>
             <Portal>
               <Dialog visible={visible} onDismiss={hideDialog}>
@@ -81,6 +89,23 @@ const styles = StyleSheet.create({
     fontSize: 42,
     fontWeight: "bold",
     textAlign: "center",
+  },
+  buttonText: {
+    textAlign: "center",
+    textAlignVertical: "center",
+    color: "white",
+  },
+  button: {
+    height: 48,
+    overflow: 'hidden',
+    backgroundColor: '#40DF9F',
+    borderWidth: 1,
+    borderRadius: 15,
+    marginTop: 10,
+    marginBottom: 10,
+    marginLeft: 30,
+    marginRight: 30,
+    paddingLeft: 16
   },
   searchBar:{
     height:60,
