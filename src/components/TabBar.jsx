@@ -32,8 +32,8 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     marginTop: 4,
     marginBottom: 4,
-    marginLeft: 50,
-    marginRight: 50,
+    marginLeft: 45,
+    marginRight: 45,
     alignItems:'center',
     justifyContent:'center'
     },
@@ -46,8 +46,7 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     marginTop: 4,
     marginBottom: 4,
-    marginLeft: 5,
-    marginRight: 5,
+
     alignItems:'center',
     justifyContent:'center'
   },
