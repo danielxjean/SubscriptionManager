@@ -1,7 +1,7 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect} from "react";
 import { View, Text,StyleSheet, TouchableOpacity, Alert } from "react-native";
-import { List,Searchbar} from 'react-native-paper';
-
+import {Divider,IconButton, List, Searchbar, Card,Button, Paragraph, Dialog, Portal,Provider } from 'react-native-paper';
+import EntertainmentIcon from '../styles/icon/EntertainmentIcon.png'
 
 function serviceIcon(props,icon){
   return <List.Icon {...props} icon={icon}/>
@@ -10,10 +10,18 @@ function serviceIcon(props,icon){
 export default function ManageSubscriptions() {
   const [searchQuery, setSearchQuery] = React.useState('');
   const [services,setServices]= React.useState([]);
+  const [visible, setVisible] = React.useState(false);
+
+  const showDialog = () => setVisible(true);
+
+  const hideDialog = () => setVisible(false);
 
   useEffect(()=>{
-    setServices(["Netflix","Prime Video"])
-  },[])
+    setServices([{name:"Netflix",icon:EntertainmentIcon},{name:"Prime Video",icon:EntertainmentIcon}])
+  },[]);
+  const deleteService = () =>
+      Alert.alert("Button for deleting service (TODO!)");
+
 
   const onChangeSearch = query => setSearchQuery(query)
   return(
@@ -27,18 +35,34 @@ export default function ManageSubscriptions() {
               onChangeText={onChangeSearch}
               value={searchQuery}/>
           </View>
-        <View>
-          {services.map(service =>(
-              <List.Item
-                  style={styles.serviceList}
-                  title={service}
-                  description="services"
-                  left={props => serviceIcon(props,'folder')}
-                  right={props => <List.Icon {...props} icon="delete"/>}
+          {services.map(service =>( <View>
+              <Card.Title
+                  key={service.name}
+                  title={service.name}
+                  titleStyle={{color:"white"}}
+                  subtitleStyle={{color:"white"}}
+                  subtitle="services"
+                  left={props => serviceIcon(props,service.icon)}
+                  right={props => <IconButton {...props} icon="square-edit-outline" color={"white"} onPress={showDialog}/>}
               />
+              <Divider style={styles.divider}/>
+              </View>
+
           ))
           }
-        </View>
+          <Provider>
+            <Portal>
+              <Dialog visible={visible} onDismiss={hideDialog}>
+                <Dialog.Title>Alert</Dialog.Title>
+                <Dialog.Content>
+                  <Paragraph>This is simple dialog</Paragraph>
+                </Dialog.Content>
+                <Dialog.Actions>
+                  <Button onPress={hideDialog}>Done</Button>
+                </Dialog.Actions>
+              </Dialog>
+            </Portal>
+          </Provider>
         </View>
     );
 }
@@ -64,10 +88,7 @@ const styles = StyleSheet.create({
     marginLeft:'10%',
     marginRight:'10%',
   },
-  searchText:{
-    color:"#FFFFFF"
-  },
-  serviceList:{
-    color:"#FFFFFF"
+  divider:{
+    color:"white"
   }
 });
