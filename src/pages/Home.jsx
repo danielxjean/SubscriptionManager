@@ -1,33 +1,39 @@
 import React, { useEffect, useState } from 'react'
 
-import { FlatList, Keyboard, Text, Alert, TextInput,StatusBar, TouchableOpacity, View, StyleSheet } from 'react-native'
+import { FlatList, Keyboard, Text, Alert, TextInput,StatusBar, TouchableOpacity, View, StyleSheet } from 'react-native';
 import {Header} from 'react-native-elements';
 // import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import {Card, Title, Paragraph, Headline} from 'react-native-paper';
+import TabBar from '../components/TabBar.jsx';
 
-// import Settings from './Settings';
+// import tings from './Settings';
 // import Subscriptions from './Subscriptions';
 // import Menu from './Menu';
 
 // const Tab = createBottomTabNavigator();
 
-const addSubscription = () => 
+const addSubscription = () =>
 Alert.alert("Button for adding Subscriptions (TODO!");
 
-const manageSubscription = () => 
+const manageSubscription = () =>
 Alert.alert("Button for managing Subscriptions (TODO!");
 
-const statistics = () => 
+const statistics = () =>
 Alert.alert("Button for statistics (TODO!");
 
-const upcomingPayments = () => 
+const upcomingPayments = () =>
 Alert.alert("Button for upcomingPayments (TODO!");
 
 const logout = () =>
 Alert.alert("Button for log out (TODO)!");
 
 
-export default function Home() {
+export default function Home(effect, deps) {
+  const backgroundColor='#FFC542';
+ useEffect(()=>{
+   StatusBar.setBarStyle( 'light-content',true)
+   StatusBar.setBackgroundColor(backgroundColor)
+  }, [])
 
   const [entityText, setEntityText] = useState('');
 
@@ -43,7 +49,8 @@ export default function Home() {
             {/*  }}*/}
             {/*    />*/}
 
-            <View style = {{ backgroundColor: '#FFC542', height: '100%'}}>
+
+            <View style = {{ backgroundColor: backgroundColor, height: '100%'}}>
 
                 <Card style={styles.monthlyCard}>
                   <Card.Content>
@@ -69,8 +76,11 @@ export default function Home() {
                 <TouchableOpacity style={styles.button} onPress={upcomingPayments}>
                     <Text style={styles.buttonText}>Upcoming Payments</Text>
                 </TouchableOpacity>
+
                 </Card.Content>
+
               </Card>
+
             </View>
 
             {/*<Tab.Navigator>*/}
@@ -78,19 +88,23 @@ export default function Home() {
             {/*        <Tab.Screen name="Settings" component={Settings} />*/}
             {/*        <Tab.Screen name="Menu" component={Menu} />*/}
             {/*  </Tab.Navigator>*/}
+
+
           </View>
-          
+
+
+
         );
 
 }
 
 
 const styles = StyleSheet.create({
+
   container: {
     flex: 1,
     flexDirection: "column",
     backgroundColor: "#30444E"
-
   },
   image: {
     flex: 1,
@@ -107,7 +121,8 @@ const styles = StyleSheet.create({
   buttonText: {
     textAlign: "center",
     textAlignVertical: "center",
-    color: "white",
+    color: "white"
+
   },
   button: {
     height: 48,
@@ -118,7 +133,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 10,
     marginLeft: 30,
-    marginRight: 30,
+    marginRight: 30
  },
   input: {
     height: 48,
@@ -137,12 +152,12 @@ const styles = StyleSheet.create({
     marginTop: 40,
     marginBottom: 50,
     marginLeft: 30,
-    marginRight: 30,
+    marginRight: 30
   },
   buttonCard: {
     borderRadius: 20,
     overflow: 'hidden',
     height:'100%',
-    backgroundColor: '#2A3C44',
+    backgroundColor: '#2A3C44'
   }
 });

@@ -25,7 +25,7 @@ export default function LandingPage({ navigation }) {
       /> 
       <Button
         mode="contained"
-        onPress={() => navigation.navigate('Home')}
+        onPress={() => navigation.navigate('TabNavigator', {screen: 'Home'})}
         title="Home (temporary)"
         buttonStyle={styles.button}
       /> 

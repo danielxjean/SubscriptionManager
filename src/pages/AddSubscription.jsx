@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { View, Text, TextInput,StyleSheet, TouchableOpacity, Alert } from "react-native";
 import { Dropdown } from 'react-native-material-dropdown-v2';
 import {Header} from 'react-native-elements';
+import TabBar from '../components/TabBar';
 
 export default function AddSubscription() {
   let category = [
@@ -26,7 +27,7 @@ export default function AddSubscription() {
   return(
     // <View>
       // <Header centerComponent={{ text: 'Add Subscription', style: { color: '#fff' } }} />
-      <View style={{ flex: 1, justifyContent: 'center', width: '100%', backgroundColor: '#30444E'}}>
+      <View style={{ flex: 1, justifyContent: 'center', width: '100%', backgroundColor: '#2A3C44'}}>
         <TextInput
             style={styles.input}
             placeholder='Subscription name'
@@ -64,7 +65,9 @@ export default function AddSubscription() {
           <TouchableOpacity style={styles.button} onPress={addSubscription}>
               <Text style={styles.buttonText}>Add</Text>
           </TouchableOpacity>
+
       </View>
+
     // </View>
 
     );
