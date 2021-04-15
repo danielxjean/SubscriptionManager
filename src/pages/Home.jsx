@@ -83,6 +83,10 @@ export default function Home(effect, deps) {
 
             </View>
 
+            <View>
+                <TabBar style={styles.footer}/>
+            </View>
+
             {/*<Tab.Navigator>*/}
             {/*        <Tab.Screen name="Subscriptions" component={Subscriptions}  />*/}
             {/*        <Tab.Screen name="Settings" component={Settings} />*/}
@@ -101,6 +105,9 @@ export default function Home(effect, deps) {
 
 const styles = StyleSheet.create({
 
+   footer: {
+    zIndex: 999
+   },
   container: {
     flex: 1,
     flexDirection: "column",
@@ -158,6 +165,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     overflow: 'hidden',
     height:'100%',
-    backgroundColor: '#2A3C44'
+    backgroundColor: '#2A3C44',
+    zIndex: 1
   }
 });
