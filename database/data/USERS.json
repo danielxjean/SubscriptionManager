@@ -1,0 +1,4 @@
+[{"username":"test1","password":"test1",
+  "services":[
+    {"Service":"Netflix","packages":"$9.59","Category":"Entertainment"},
+    {"Service":"Prime Video","packages":"$7.34","Category":"Entertainment"}]}]

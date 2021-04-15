@@ -2,6 +2,8 @@ import React, {useEffect} from "react";
 import { View, Text,StyleSheet, TouchableOpacity, Alert } from "react-native";
 import {Divider,IconButton, List, Searchbar, Card,Button, Paragraph, Dialog, Portal,Provider } from 'react-native-paper';
 import EntertainmentIcon from '../styles/icon/EntertainmentIcon.png'
+import { firebase, firestore, storage } from "./firebase";
+
 
 function serviceIcon(props,icon){
   return <List.Icon {...props} icon={icon}/>

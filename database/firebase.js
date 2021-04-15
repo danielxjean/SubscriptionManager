@@ -12,5 +12,15 @@ const firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 
+let users = firebase.database().ref('users/');
+
+$.ajax({
+    url: './data/USERS.json'
+}).done(data => {
+    data.forEach(item => {
+        users.push(item);
+    });
+});
+
 export default firebase;
 
