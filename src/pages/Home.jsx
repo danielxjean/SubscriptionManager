@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { FlatList, Keyboard, Text, Alert, TextInput,StatusBar, TouchableOpacity, View, StyleSheet } from 'react-native';
 import {Header} from 'react-native-elements';
-import {Card, Title, Paragraph, Headline, IconButton} from 'react-native-paper';
+import {Card, Title, Paragraph, Headline} from 'react-native-paper';
+import { LinearGradient } from 'expo-linear-gradient';
 import TabBar from '../components/TabBar.jsx';
-import { StackNavigator } from 'react-navigation';
-import { useNavigation } from '@react-navigation/native';
 
 const addSubscription = () =>
 Alert.alert("Button for adding Subscriptions (TODO!");
@@ -21,15 +20,15 @@ Alert.alert("Button for upcomingPayments (TODO!");
 const logout = () =>
 Alert.alert("Button for log out (TODO)!");
 
-const goHome = () =>
-Alert.alert("Go Home Button");
 
-
-export default function Home({navigation, effect, deps}) {
+export default function Home(effect, deps) {
   const backgroundColor='#FFC542';
  useEffect(()=>{
-   StatusBar.setBarStyle( 'light-content',true)
-   StatusBar.setBackgroundColor(backgroundColor)
+   if (Platform.OS == 'android') {
+     StatusBar.setBarStyle('light-content', true)
+     StatusBar.setBackgroundColor(backgroundColor)
+   }
+
   }, [])
 
   const [entityText, setEntityText] = useState('');
@@ -48,19 +47,39 @@ export default function Home({navigation, effect, deps}) {
               <Card style={styles.buttonCard}>
                 <Card.Content>
                 <TouchableOpacity style={styles.button} onPress={addSubscription}>
-                    <Text style={styles.buttonText}>Add Subscription</Text>
+                  <LinearGradient
+                    // Button Linear Gradient
+                    colors={['#9FC6FF', '#6993FF', '#516AC2']}
+                    height={'100%'}>
+                    <Title style={styles.buttonText}>Add Subscription</Title>
+                </LinearGradient>
                 </TouchableOpacity>
 
                 <TouchableOpacity style={styles.button} onPress={manageSubscription}>
-                    <Text style={styles.buttonText}>Manage Subscriptions</Text>
+                  <LinearGradient
+                      // Button Linear Gradient
+                      colors={['#9FC6FF', '#6993FF', '#516AC2']}
+                      height={'100%'}>
+                    <Title style={styles.buttonText}>Manage Subscriptions</Title>
+                  </LinearGradient>
                 </TouchableOpacity>
 
                 <TouchableOpacity style={styles.button} onPress={statistics}>
-                    <Text style={styles.buttonText}>Statistics</Text>
+                  <LinearGradient
+                      // Button Linear Gradient
+                      colors={['#9FC6FF', '#6993FF', '#516AC2']}
+                      height={'100%'}>
+                    <Title style={styles.buttonText}>Statistics</Title>
+                  </LinearGradient>
                 </TouchableOpacity>
 
                 <TouchableOpacity style={styles.button} onPress={upcomingPayments}>
-                    <Text style={styles.buttonText}>Upcoming Payments</Text>
+                  <LinearGradient
+                      // Button Linear Gradient
+                      colors={['#9FC6FF', '#6993FF', '#516AC2']}
+                      height={'100%'}>
+                    <Title style={styles.buttonText}>Upcoming Payments</Title>
+                  </LinearGradient>
                 </TouchableOpacity>
 
                 </Card.Content>
@@ -73,11 +92,8 @@ export default function Home({navigation, effect, deps}) {
                 <TabBar style={styles.footer}/>
             </View>
 
-
           </View>
-
-
-
+          
         );
 
 }
@@ -115,6 +131,7 @@ const styles = StyleSheet.create({
     height: 48,
     overflow: 'hidden',
     backgroundColor: '#40DF9F',
+    justifyContent: 'center',
     borderWidth: 1,
     borderRadius: 15,
     marginTop: 10,
@@ -148,5 +165,4 @@ const styles = StyleSheet.create({
     backgroundColor: '#2A3C44',
     zIndex: 1
   }
-
 });
