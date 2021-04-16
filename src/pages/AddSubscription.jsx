@@ -4,7 +4,7 @@ import { Dropdown } from 'react-native-material-dropdown-v2';
 import {Header} from 'react-native-elements';
 import TabBar from '../components/TabBar';
 
-export default function AddSubscription() {
+export default function AddSubscription({ navigation }) {
   let category = [
     {
       value: 'Entertainment'
@@ -25,8 +25,7 @@ export default function AddSubscription() {
   const [subscriptionName, setSubscriptionName] = useState('');
 
   return(
-    // <View>
-      // <Header centerComponent={{ text: 'Add Subscription', style: { color: '#fff' } }} />
+
       <View style={{ flex: 1, justifyContent: 'center', width: '100%', backgroundColor: '#2A3C44'}}>
         <TextInput
             style={styles.input}
@@ -67,8 +66,6 @@ export default function AddSubscription() {
           </TouchableOpacity>
 
       </View>
-
-    // </View>
 
     );
 }

@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { FlatList, Keyboard, Text, Alert, TextInput,StatusBar, TouchableOpacity, View, StyleSheet } from 'react-native';
 import {Header} from 'react-native-elements';
-import {Card, Title, Paragraph, Headline} from 'react-native-paper';
+import {Card, Title, Paragraph, Headline, IconButton} from 'react-native-paper';
 import TabBar from '../components/TabBar.jsx';
+import { StackNavigator } from 'react-navigation';
+import { useNavigation } from '@react-navigation/native';
 
 const addSubscription = () =>
 Alert.alert("Button for adding Subscriptions (TODO!");
@@ -19,8 +21,11 @@ Alert.alert("Button for upcomingPayments (TODO!");
 const logout = () =>
 Alert.alert("Button for log out (TODO)!");
 
+const goHome = () =>
+Alert.alert("Go Home Button");
 
-export default function Home(effect, deps) {
+
+export default function Home({navigation, effect, deps}) {
   const backgroundColor='#FFC542';
  useEffect(()=>{
    StatusBar.setBarStyle( 'light-content',true)
@@ -67,6 +72,7 @@ export default function Home(effect, deps) {
             <View>
                 <TabBar style={styles.footer}/>
             </View>
+
 
           </View>
 
@@ -142,4 +148,5 @@ const styles = StyleSheet.create({
     backgroundColor: '#2A3C44',
     zIndex: 1
   }
+
 });

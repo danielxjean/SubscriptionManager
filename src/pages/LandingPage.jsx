@@ -34,7 +34,13 @@ export default function LandingPage({ navigation }) {
         onPress={() => navigation.navigate('AddSubscription')}
         title="AddSubscription (temporary)"
         buttonStyle={styles.button}
-      /> 
+      />
+      <Button
+        mode="contained"
+        onPress={() => navigation.navigate('Statistics')}
+        title="Statistics (temporary)"
+        buttonStyle={styles.button}
+      />
       </ImageBackground>
     </View>
   );
