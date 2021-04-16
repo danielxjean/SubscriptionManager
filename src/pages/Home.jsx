@@ -1,27 +1,20 @@
 import React, { useEffect, useState } from 'react'
-
-import { FlatList, Keyboard, Text, Alert, TextInput,StatusBar, TouchableOpacity, View, StyleSheet } from 'react-native'
+import { FlatList, Keyboard, Text, Alert, TextInput,StatusBar, TouchableOpacity, View, StyleSheet } from 'react-native';
 import {Header} from 'react-native-elements';
-// import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import {Card, Title, Paragraph, Headline} from 'react-native-paper';
 import { LinearGradient } from 'expo-linear-gradient';
+import TabBar from '../components/TabBar.jsx';
 
-// import Settings from './Settings';
-// import Subscriptions from './Subscriptions';
-// import Menu from './Menu';
-
-// const Tab = createBottomTabNavigator();
-
-const addSubscription = () => 
+const addSubscription = () =>
 Alert.alert("Button for adding Subscriptions (TODO!");
 
-const manageSubscription = () => 
+const manageSubscription = () =>
 Alert.alert("Button for managing Subscriptions (TODO!");
 
-const statistics = () => 
+const statistics = () =>
 Alert.alert("Button for statistics (TODO!");
 
-const upcomingPayments = () => 
+const upcomingPayments = () =>
 Alert.alert("Button for upcomingPayments (TODO!");
 
 const logout = () =>
@@ -42,15 +35,6 @@ export default function Home(effect, deps) {
 
         return(
           <View>
-            {/*<Header*/}
-            {/*  leftComponent={{ icon: 'add', color: '#fff', onPress: () => addSubscription() }}*/}
-            {/*  centerComponent={{ text: 'Subscription Manager', style: { color: '#fff' } }}*/}
-            {/*  rightComponent={{ text: 'Logout', style: { color: '#fff' }, onPress: () => logout() }}*/}
-            {/*  containerStyle={{*/}
-            {/*    backgroundColor: '#1A282F',*/}
-            {/*    justifyContent: 'space-around',*/}
-            {/*  }}*/}
-            {/*    />*/}
             <View style = {{ backgroundColor: backgroundColor, height: '100%'}}>
 
                 <Card style={styles.monthlyCard}>
@@ -62,7 +46,6 @@ export default function Home(effect, deps) {
 
               <Card style={styles.buttonCard}>
                 <Card.Content>
-
                 <TouchableOpacity style={styles.button} onPress={addSubscription}>
                   <LinearGradient
                     // Button Linear Gradient
@@ -98,28 +81,33 @@ export default function Home(effect, deps) {
                     <Title style={styles.buttonText}>Upcoming Payments</Title>
                   </LinearGradient>
                 </TouchableOpacity>
+
                 </Card.Content>
+
               </Card>
+
             </View>
 
-            {/*<Tab.Navigator>*/}
-            {/*        <Tab.Screen name="Subscriptions" component={Subscriptions}  />*/}
-            {/*        <Tab.Screen name="Settings" component={Settings} />*/}
-            {/*        <Tab.Screen name="Menu" component={Menu} />*/}
-            {/*  </Tab.Navigator>*/}
-          </View>
+            <View>
+                <TabBar style={styles.footer}/>
+            </View>
 
+          </View>
+          
         );
 
 }
 
 
 const styles = StyleSheet.create({
+
+   footer: {
+    zIndex: 999
+   },
   container: {
     flex: 1,
     flexDirection: "column",
     backgroundColor: "#30444E"
-
   },
   image: {
     flex: 1,
@@ -131,22 +119,25 @@ const styles = StyleSheet.create({
     fontSize: 42,
     fontWeight: "bold",
     textAlign: "center",
+    backgroundColor: "#000000a0"
   },
   buttonText: {
     textAlign: "center",
     textAlignVertical: "center",
-    color: "white",
+    color: "white"
+
   },
   button: {
     height: 48,
     overflow: 'hidden',
+    backgroundColor: '#40DF9F',
     justifyContent: 'center',
     borderWidth: 1,
     borderRadius: 15,
     marginTop: 10,
     marginBottom: 10,
     marginLeft: 30,
-    marginRight: 30,
+    marginRight: 30
  },
   input: {
     height: 48,
@@ -165,12 +156,13 @@ const styles = StyleSheet.create({
     marginTop: 40,
     marginBottom: 50,
     marginLeft: 30,
-    marginRight: 30,
+    marginRight: 30
   },
   buttonCard: {
     borderRadius: 20,
     overflow: 'hidden',
     height:'100%',
     backgroundColor: '#2A3C44',
+    zIndex: 1
   }
 });
