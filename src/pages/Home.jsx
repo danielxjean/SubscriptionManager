@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { FlatList, Keyboard, Text, Alert, TextInput,StatusBar, TouchableOpacity, View, StyleSheet } from 'react-native';
 import {Header} from 'react-native-elements';
+import { firebase } from '../../database/firebase';
 import {Card, Title, Paragraph, Headline} from 'react-native-paper';
 import { LinearGradient } from 'expo-linear-gradient';
-import TabBar from '../components/TabBar.jsx';
 
-const addSubscription = () =>
+const addSubscription = () => 
 Alert.alert("Button for adding Subscriptions (TODO!");
 
 const manageSubscription = () =>
@@ -17,8 +17,11 @@ Alert.alert("Button for statistics (TODO!");
 const upcomingPayments = () =>
 Alert.alert("Button for upcomingPayments (TODO!");
 
-const logout = () =>
-Alert.alert("Button for log out (TODO)!");
+const logout = () => {
+  Alert.alert('logging out');
+  firebase.auth().signOut();
+}
+
 
 
 export default function Home(effect, deps) {
@@ -87,11 +90,6 @@ export default function Home(effect, deps) {
               </Card>
 
             </View>
-
-            <View>
-                <TabBar style={styles.footer}/>
-            </View>
-
           </View>
           
         );

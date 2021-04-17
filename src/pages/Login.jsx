@@ -3,6 +3,7 @@ import { View, StyleSheet, TouchableOpacity, ImageBackground, TextInput } from '
 import { Header, Button, Text, colors } from 'react-native-elements';
 import { emailValidator } from '../helpers/emailValidator';
 import { passwordValidator } from '../helpers/passwordValidator';
+import { firebase }  from '../../database/firebase';
 import WavyHeader from '../components/WavyHeader';
 
 export default function Login({ navigation }) {
@@ -18,10 +19,31 @@ export default function Login({ navigation }) {
       setPassword({ ...password, error: passwordError })
       return
     }
-    navigation.reset({
-      index: 0,
-      routes: [{ name: 'Home' }],
-    })
+
+    firebase
+            .auth()
+            .signInWithEmailAndPassword(email.value, password.value)
+            .then((response) => {
+                const uid = response.user.uid
+                const usersRef = firebase.firestore().collection('users')
+                usersRef
+                    .doc(uid)
+                    .get()
+                    .then(firestoreDocument => {
+                        if (!firestoreDocument.exists) {
+                            alert("User does not exist anymore.")
+                            return;
+                        }
+                        const user = firestoreDocument.data()
+                        navigation.navigate('Home')
+                    })
+                    .catch(error => {
+                        alert(error)
+                    });
+            })
+            .catch(error => {
+                alert(error)
+            })
   }
 
   return (
@@ -60,7 +82,7 @@ export default function Login({ navigation }) {
             
             <Button 
               mode="contained" 
-              onPress={onLoginPressed}         
+              onPress={() => onLoginPressed()}         
               title="Log in"
               buttonStyle={styles.button}
               titleStyle={styles.text}

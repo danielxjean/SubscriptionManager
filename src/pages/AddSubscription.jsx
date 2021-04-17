@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { View, Text, TextInput,StyleSheet, TouchableOpacity, Alert } from "react-native";
 import { Dropdown } from 'react-native-material-dropdown-v2';
-import {Header} from 'react-native-elements';
-import TabBar from '../components/TabBar';
+import { Header, Button } from 'react-native-elements';
+import DateTimePicker  from  '@react-native-community/datetimepicker';
+import firebase from '../../database/firebase';
 
-export default function AddSubscription({ navigation }) {
+export default function AddSubscription() {
   let category = [
     {
       value: 'Entertainment'
@@ -20,9 +21,25 @@ export default function AddSubscription({ navigation }) {
   const addSubscription = () => 
   Alert.alert("Button for adding Subscriptions (TODO!");
 
-  const [paymentDate, setPaymentDate] = useState('');
+  // firebase.firestore()
+
+  const [paymentDate, setPaymentDate] = useState(new Date());
   const [monthlyCost, setMonthlyCost] = useState('');
   const [subscriptionName, setSubscriptionName] = useState('');
+
+
+  const [show, setShow] = useState(false);
+
+  const onChange = (event, selectedDate) => {
+    const currentDate = selectedDate || paymentDate;
+    setShow(Platform.OS === 'android');
+    setPaymentDate(currentDate);
+  };
+
+  const showDatepicker = () => {
+    setShow(true);
+  };
+
 
   return(
     <View>
@@ -40,21 +57,13 @@ export default function AddSubscription({ navigation }) {
         <TextInput
             style={styles.input}
             placeholder='Monthly cost'
+            keyboardType = 'numeric'
             placeholderTextColor="#aaaaaa"
             onChangeText={(text) => setMonthlyCost(text)}
             value={monthlyCost}
             underlineColorAndroid="transparent"
             autoCapitalize="none"
         />
-          <TextInput
-              style={styles.input}
-              placeholder='Payment date'
-              placeholderTextColor="#aaaaaa"
-              onChangeText={(text) => setPaymentDate(text)}
-              value={paymentDate}
-              underlineColorAndroid="transparent"
-              autoCapitalize="none"
-          />
           <Dropdown 
             placeholder = "Category"
             data = {category}
@@ -62,19 +71,42 @@ export default function AddSubscription({ navigation }) {
             placeholderTextColor = "#aaaaaa"
             selectedItemColor	 = "#aaaaaa"
           />
+          <View style={{flexDirection:'row'}}>
+
+              <TextInput
+                  style={styles.inputDate}
+                  placeholder={paymentDate.toDateString()}
+                  placeholderTextColor="#aaaaaa"
+                  // onChangeText={paymentDate.toDateString()} // paymentDate.toDateString()
+                  value={paymentDate.toDateString()}
+                  underlineColorAndroid="transparent"
+                  autoCapitalize="none"
+                  onPress = {showDatepicker}
+              />
+
+              <Button
+                  onPress={showDatepicker}
+                  title="Date"
+                  buttonStyle={styles.buttonDate}
+              />
+
+          </View>
+
+          {show && (<DateTimePicker
+            testID="dateTimePicker"
+            value={paymentDate}
+            mode='date'
+            display="calendar"
+            onChange={onChange}
+            placeholder= "Category"
+          />
+          )}
+
           <TouchableOpacity style={styles.button} onPress={addSubscription}>
               <Text style={styles.buttonText}>Add</Text>
           </TouchableOpacity>
       </View>
-
-      <View>
-          <TabBar style={styles.footer}/>
-      </View>
-
-
-
-      </View>
-
+    // </View>
 
     );
 }
@@ -112,12 +144,27 @@ const styles = StyleSheet.create({
     backgroundColor: '#40DF9F',
     borderWidth: 1,
     borderRadius: 15,
-    marginTop: 20,
-    marginBottom: 10,
+    marginTop: 10,
+    marginBottom: 30,
     marginLeft: 30,
     marginRight: 30,
     paddingLeft: 16     
  },
+ buttonDate: {
+  height: 48,
+  overflow: 'hidden',
+  backgroundColor: '#1A282F',
+  opacity: 0.5,
+  borderWidth: 1,
+  borderColor: '#1A282F',
+  borderRadius: 15,
+  marginTop: 10,
+  marginBottom: 10,
+  marginLeft: 30,
+  marginRight: 30,
+  paddingLeft: 16,
+  width: '40%'
+},
  dropdown: {
   height: 48,
   overflow: 'hidden',
@@ -141,11 +188,16 @@ const styles = StyleSheet.create({
   marginRight: 30,
   paddingLeft: 16
 },
-footer: {
-    zIndex: 999,
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    bottom: 0
-   }
+inputDate: {
+  height: 48,
+  borderRadius: 5,
+  overflow: 'hidden',
+  backgroundColor: '#1A282F',
+  marginTop: 10,
+  marginBottom: 10,
+  marginLeft: 30,
+  marginRight: 0,
+  paddingLeft: 16,
+  width: '50%',
+},
 });
