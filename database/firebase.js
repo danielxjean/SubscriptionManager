@@ -1,4 +1,4 @@
-import * as firebase from "firebase/app";
+import firebase from 'firebase';
 
 const firebaseConfig = {
     apiKey: "AIzaSyBnZ3n7XXZ9u7w3HLCzRlPXJUWLARHWs9A",
@@ -12,15 +12,7 @@ const firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 
-// let users = firebase.database().ref('users/');
-//
-// $.ajax({
-//     url: './data/USERS.json'
-// }).done(data => {
-//     data.forEach(item => {
-//         users.push(item);
-//     });
-// });
+export const db = firebase.firestore();
 
 export default firebase;
 

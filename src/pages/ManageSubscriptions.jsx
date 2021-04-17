@@ -2,6 +2,7 @@ import React, {useEffect} from "react";
 import { View, Text,StyleSheet, TouchableOpacity, Alert } from "react-native";
 import {Divider,IconButton, List, Searchbar, Card,Button, Paragraph, Dialog, Portal,Provider } from 'react-native-paper';
 import EntertainmentIcon from '../styles/icon/EntertainmentIcon.png'
+import {db} from "../../database/firebase";
 
 
 
@@ -12,7 +13,7 @@ function serviceIcon(props,icon){
 
 export default function ManageSubscriptions() {
   const [searchQuery, setSearchQuery] = React.useState('');
-  const [services,setServices]= React.useState([]);
+  const [user,setUser]= React.useState();
   const [visible, setVisible] = React.useState(false);
 
   const showDialog = () => setVisible(true);
@@ -20,11 +21,45 @@ export default function ManageSubscriptions() {
   const hideDialog = () => setVisible(false);
 
 
-  const addSubscription = () =>
-      Alert.alert("Button for adding Subscriptions (TODO!");
+  const addSubscription = () =>{
+    // db.collection("users").doc("test1").set({username:"test1",password:"test1",
+    //   services:[
+    //     {Service:"Netflix",packages:10,Category:"Entertainment"},
+    //     {Service:"Prime Video",packages:5,Category:"Entertainment"}]})
+    // .then(() => {
+    //   console.log("Document successfully written!");
+    // })
+    // .catch((error) => {
+    //   console.error("Error writing document: ", error);
+    // });
+    var docRef = db.collection("users").doc("test1");
+
+    docRef.get().then((doc) => {
+      if (doc.exists) {
+        console.log("Document data:", doc.data());
+      } else {
+        // doc.data() will be undefined in this case
+        console.log("No such document!");
+      }
+    }).catch((error) => {
+      console.log("Error getting document:", error);
+    });
+  };
 
   useEffect(()=>{
-    setServices([{name:"Netflix",icon:EntertainmentIcon},{name:"Prime Video",icon:EntertainmentIcon}])
+    var docRef = db.collection("users").doc("test1");
+
+    docRef.get().then((doc) => {
+      if (doc.exists) {
+        setUser(doc.data())
+        console.log("Document data:", doc.data());
+      } else {
+        // doc.data() will be undefined in this case
+        console.log("No such document!");
+      }
+    }).catch((error) => {
+      console.log("Error getting document:", error);
+    });
   },[]);
   const deleteService = () =>
       Alert.alert("Button for deleting service (TODO!)");
@@ -42,14 +77,13 @@ export default function ManageSubscriptions() {
               onChangeText={onChangeSearch}
               value={searchQuery}/>
           </View>
-          {services.map(service =>( <View>
+          {user && user.services.map(service =>(
+              <View key={service.username}>
               <Card.Title
-                  key={service.name}
-                  title={service.name}
+                  title={service.Service}
                   titleStyle={{color:"white"}}
                   subtitleStyle={{color:"white"}}
-                  subtitle="services"
-                  left={props => serviceIcon(props,service.icon)}
+                  subtitle={service.Category}
                   right={props => <IconButton {...props} icon="square-edit-outline" color={"white"} onPress={showDialog}/>}
               />
               <Divider style={styles.divider}/>

@@ -4,7 +4,6 @@ import { Header, Button, Text } from 'react-native-elements';
 import { emailValidator } from '../helpers/emailValidator';
 import { passwordValidator } from '../helpers/passwordValidator';
 import { nameValidator } from '../helpers/nameValidator';
-import { firebase } from '../../database/firebase/';
 import WavyHeader from '../components/WavyHeader';
 
 export default function Register({ navigation }) {
