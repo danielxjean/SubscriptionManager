@@ -25,8 +25,9 @@ export default function AddSubscription({ navigation }) {
   const [subscriptionName, setSubscriptionName] = useState('');
 
   return(
+    <View>
+      <View style={{ paddingTop: 225, backgroundColor: '#2A3C44', height: '100%'}}>
 
-      <View style={{ flex: 1, justifyContent: 'center', width: '100%', backgroundColor: '#2A3C44'}}>
         <TextInput
             style={styles.input}
             placeholder='Subscription name'
@@ -64,8 +65,16 @@ export default function AddSubscription({ navigation }) {
           <TouchableOpacity style={styles.button} onPress={addSubscription}>
               <Text style={styles.buttonText}>Add</Text>
           </TouchableOpacity>
+      </View>
+
+      <View>
+          <TabBar style={styles.footer}/>
+      </View>
+
+
 
       </View>
+
 
     );
 }
@@ -94,15 +103,16 @@ const styles = StyleSheet.create({
     paddingTop: 12,
     textAlign: "center",
     color: "white",
-    fontSize: 15
+    fontSize: 18,
+    fontWeight: 'bold'
   },
   button: {
-    height: 48,
+    height: 52,
     overflow: 'hidden',
     backgroundColor: '#40DF9F',
     borderWidth: 1,
     borderRadius: 15,
-    marginTop: 10,
+    marginTop: 20,
     marginBottom: 10,
     marginLeft: 30,
     marginRight: 30,
@@ -126,9 +136,16 @@ const styles = StyleSheet.create({
   overflow: 'hidden',
   backgroundColor: '#1A282F',
   marginTop: 10,
-  marginBottom: 10,
+  marginBottom: 15,
   marginLeft: 30,
   marginRight: 30,
   paddingLeft: 16
 },
+footer: {
+    zIndex: 999,
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    bottom: 0
+   }
 });

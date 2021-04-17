@@ -2,6 +2,7 @@ import React from 'react';
 import { SafeAreaView, Text, View, StyleSheet, Dimensions, ScrollView } from 'react-native';
 import {Card, Title, Headline} from 'react-native-paper';
 import { LineChart, BarChart, PieChart, ProgressChart, ContributionGraph, StackedBarChart} from 'react-native-chart-kit';
+import TabBar from '../components/TabBar.jsx';
 
 const data = [
   { name: 'Entertainment', cost: 21, color: '#FFC542', legendFontColor: '#7F7F7F', legendFontSize: 11 },
@@ -40,6 +41,11 @@ export default function Statistics() {
                      </Card.Content>
                  </Card>
             </View>
+
+            <View>
+                <TabBar style={styles.footer}/>
+            </View>
+
         </View>
 
     )
@@ -64,4 +70,7 @@ const styles = StyleSheet.create({
     color: 'white',
     fontWeight: 'bold'
   },
+  footer: {
+      zIndex: 999
+     }
 });

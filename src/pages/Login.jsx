@@ -25,7 +25,7 @@ export default function Login({ navigation }) {
   }
 
   return (
-      <View>
+      <View style={{backgroundColor: '#40DF9F', height: '100%'}}>
           <WavyHeader customStyles={styles.svgCurve} />
           <View style={styles.headerContainer}>
             <Text style={styles.headerText}>Subscription Manager</Text>
@@ -88,7 +88,7 @@ const styles = StyleSheet.create({
     width: '100%',
     alignItems: 'flex-end',
     marginBottom: 24,
-    paddingRight: 20
+    paddingRight: 20,
   },
   button: {
     height: 48,
@@ -123,6 +123,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#fff',
     textAlign: 'center',
-    marginTop: 40
+    marginTop: 40,
   }
 })
