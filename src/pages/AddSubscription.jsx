@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { View, Text, TextInput,StyleSheet, TouchableOpacity, Alert } from "react-native";
 import { Dropdown } from 'react-native-material-dropdown-v2';
-import {Header} from 'react-native-elements';
+import { Header, Button } from 'react-native-elements';
+import DateTimePicker  from  '@react-native-community/datetimepicker';
+import firebase from '../../database/firebase';
 
 export default function AddSubscription() {
   let category = [
@@ -19,9 +21,25 @@ export default function AddSubscription() {
   const addSubscription = () => 
   Alert.alert("Button for adding Subscriptions (TODO!");
 
-  const [paymentDate, setPaymentDate] = useState('');
+  // firebase.firestore()
+
+  const [paymentDate, setPaymentDate] = useState(new Date());
   const [monthlyCost, setMonthlyCost] = useState('');
   const [subscriptionName, setSubscriptionName] = useState('');
+
+
+  const [show, setShow] = useState(false);
+
+  const onChange = (event, selectedDate) => {
+    const currentDate = selectedDate || paymentDate;
+    setShow(Platform.OS === 'android');
+    setPaymentDate(currentDate);
+  };  
+
+  const showDatepicker = () => {
+    setShow(true);
+  };
+
 
   return(
     // <View>
@@ -39,21 +57,13 @@ export default function AddSubscription() {
         <TextInput
             style={styles.input}
             placeholder='Monthly cost'
+            keyboardType = 'numeric'
             placeholderTextColor="#aaaaaa"
             onChangeText={(text) => setMonthlyCost(text)}
             value={monthlyCost}
             underlineColorAndroid="transparent"
             autoCapitalize="none"
         />
-          <TextInput
-              style={styles.input}
-              placeholder='Payment date'
-              placeholderTextColor="#aaaaaa"
-              onChangeText={(text) => setPaymentDate(text)}
-              value={paymentDate}
-              underlineColorAndroid="transparent"
-              autoCapitalize="none"
-          />
           <Dropdown 
             placeholder = "Category"
             data = {category}
@@ -61,6 +71,37 @@ export default function AddSubscription() {
             placeholderTextColor = "#aaaaaa"
             selectedItemColor	 = "#aaaaaa"
           />
+          <View style={{flexDirection:'row'}}>
+
+              <TextInput
+                  style={styles.inputDate}
+                  placeholder={paymentDate.toDateString()}
+                  placeholderTextColor="#aaaaaa"
+                  // onChangeText={paymentDate.toDateString()} // paymentDate.toDateString()
+                  value={paymentDate.toDateString()}
+                  underlineColorAndroid="transparent"
+                  autoCapitalize="none"
+                  onPress = {showDatepicker}
+              />
+
+              <Button 
+                  onPress={showDatepicker} 
+                  title="Date" 
+                  buttonStyle={styles.buttonDate} 
+              />
+
+          </View>
+          
+          {show && (<DateTimePicker
+            testID="dateTimePicker"
+            value={paymentDate}
+            mode='date'
+            display="calendar"
+            onChange={onChange}
+            placeholder= "Category"
+          />
+          )}
+
           <TouchableOpacity style={styles.button} onPress={addSubscription}>
               <Text style={styles.buttonText}>Add</Text>
           </TouchableOpacity>
@@ -103,11 +144,26 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 15,
     marginTop: 10,
-    marginBottom: 10,
+    marginBottom: 30,
     marginLeft: 30,
     marginRight: 30,
     paddingLeft: 16     
  },
+ buttonDate: {
+  height: 48,
+  overflow: 'hidden',
+  backgroundColor: '#1A282F',
+  opacity: 0.5,
+  borderWidth: 1,
+  borderColor: '#1A282F',
+  borderRadius: 15,
+  marginTop: 10,
+  marginBottom: 10,
+  marginLeft: 30,
+  marginRight: 30,
+  paddingLeft: 16,
+  width: '40%' 
+},
  dropdown: {
   height: 48,
   overflow: 'hidden',
@@ -130,5 +186,17 @@ const styles = StyleSheet.create({
   marginLeft: 30,
   marginRight: 30,
   paddingLeft: 16
+},
+inputDate: {
+  height: 48,
+  borderRadius: 5,
+  overflow: 'hidden',
+  backgroundColor: '#1A282F',
+  marginTop: 10,
+  marginBottom: 10,
+  marginLeft: 30,
+  marginRight: 0,
+  paddingLeft: 16,
+  width: '50%',
 },
 });

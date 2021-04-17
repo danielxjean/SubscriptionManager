@@ -2,14 +2,8 @@ import React, { useEffect, useState } from 'react'
 
 import { FlatList, Keyboard, Text, Alert, TextInput, TouchableOpacity, View, StyleSheet } from 'react-native'
 import {Header} from 'react-native-elements';
-// import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Card, Title, Paragraph } from 'react-native-paper';
-
-// import Settings from './Settings';
-// import Subscriptions from './Subscriptions';
-// import Menu from './Menu';
-
-// const Tab = createBottomTabNavigator();
+import { firebase } from '../../database/firebase';
 
 const addSubscription = () => 
 Alert.alert("Button for adding Subscriptions (TODO!");
@@ -23,8 +17,11 @@ Alert.alert("Button for statistics (TODO!");
 const upcomingPayments = () => 
 Alert.alert("Button for upcomingPayments (TODO!");
 
-const logout = () =>
-Alert.alert("Button for log out (TODO)!");
+const logout = () => {
+  Alert.alert('logging out'); 
+  firebase.auth().signOut();
+}
+
 
 
 export default function Home() {
@@ -68,12 +65,6 @@ export default function Home() {
                     <Text style={styles.buttonText}>Upcoming Payments</Text>
                 </TouchableOpacity>
             </View>
-
-              {/* <Tab.Navigator>
-                    <Tab.Screen name="Subscriptions" component={Subscriptions}  />
-                    <Tab.Screen name="Settings" component={Settings} />
-                    <Tab.Screen name="Menu" component={Menu} />
-              </Tab.Navigator> */}
           </View>
           
         );
