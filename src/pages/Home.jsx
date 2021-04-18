@@ -1,22 +1,43 @@
 import React, { useEffect, useState } from 'react'
 import { FlatList, Keyboard, Text, Alert, TextInput,StatusBar, TouchableOpacity, View, StyleSheet } from 'react-native';
 import {Header} from 'react-native-elements';
-import { firebase } from '../../database/firebase';
+import { firebase,db } from '../../database/firebase';
 import {Card, Title, Paragraph, Headline} from 'react-native-paper';
 import { LinearGradient } from 'expo-linear-gradient';
 
 
 export default function Home({navigation}) {
   const [entityText, setEntityText] = useState('');
+  const [Sum, setSum] = useState(0);
   const backgroundColor='#FFC542';
  useEffect(()=>{
    if (Platform.OS == 'android') {
      StatusBar.setBarStyle('light-content', true)
      StatusBar.setBackgroundColor("#2A3C44")
    }
+   _fetchSum();
+  }, [Sum])
 
-  }, [])
+  const _fetchSum = async () =>{
 
+    var docRef = db.collection("users").doc("test1");
+
+    docRef.get().then((doc) => {
+      if (doc.exists) {
+        let currSum=0;
+        const UserInfo=doc.data().services
+        console.log(UserInfo);
+        for(var i=0;i<UserInfo.length;i++)
+          currSum+=UserInfo[i].packages
+        setSum(currSum)
+      } else {
+        // doc.data() will be undefined in this case
+        console.log("No such document!");
+      }
+    }).catch((error) => {
+      console.log("Error getting document:", error);
+    });
+  }
   const addSubscription = () =>
       navigation.navigate('AddSubscription');
 
@@ -40,7 +61,7 @@ export default function Home({navigation}) {
                 <Card style={styles.monthlyCard}>
                   <Card.Content>
                     <Title style={{textAlign:"center"}}>Monthly Cost</Title>
-                    <Headline style={{textAlign:"center"}}>123$</Headline>
+                    <Headline style={{textAlign:"center"}}>{Sum}$</Headline>
                   </Card.Content>
                 </Card>
 
