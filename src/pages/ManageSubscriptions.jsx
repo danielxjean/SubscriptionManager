@@ -1,6 +1,7 @@
 import React, {useEffect} from "react";
-import { View, Text,StyleSheet, TouchableOpacity, Alert } from "react-native";
-import {Divider,IconButton, List, Searchbar, Card,Button, Paragraph, Dialog, Portal,Provider } from 'react-native-paper';
+import {ScrollView, View, Text,StyleSheet, TouchableOpacity, Alert } from "react-native";
+import {Divider,IconButton, List, Searchbar, Card,Button,Title, Paragraph, Dialog, Portal,Provider } from 'react-native-paper';
+import { LinearGradient } from 'expo-linear-gradient';
 import EntertainmentIcon from '../styles/icon/EntertainmentIcon.png'
 import {db} from "../../database/firebase";
 
@@ -11,7 +12,7 @@ function serviceIcon(props,icon){
     }
 
 
-export default function ManageSubscriptions() {
+export default function ManageSubscriptions({navigation}) {
   const [searchQuery, setSearchQuery] = React.useState('');
   const [user,setUser]= React.useState();
   const [visible, setVisible] = React.useState(false);
@@ -21,30 +22,7 @@ export default function ManageSubscriptions() {
   const hideDialog = () => setVisible(false);
 
 
-  const addSubscription = () =>{
-    // db.collection("users").doc("test1").set({username:"test1",password:"test1",
-    //   services:[
-    //     {Service:"Netflix",packages:10,Category:"Entertainment"},
-    //     {Service:"Prime Video",packages:5,Category:"Entertainment"}]})
-    // .then(() => {
-    //   console.log("Document successfully written!");
-    // })
-    // .catch((error) => {
-    //   console.error("Error writing document: ", error);
-    // });
-    var docRef = db.collection("users").doc("test1");
-
-    docRef.get().then((doc) => {
-      if (doc.exists) {
-        console.log("Document data:", doc.data());
-      } else {
-        // doc.data() will be undefined in this case
-        console.log("No such document!");
-      }
-    }).catch((error) => {
-      console.log("Error getting document:", error);
-    });
-  };
+  const addSubscription = () =>navigation.navigate('AddSubscription');
 
   useEffect(()=>{
     var docRef = db.collection("users").doc("test1");
@@ -67,7 +45,7 @@ export default function ManageSubscriptions() {
 
   const onChangeSearch = query => setSearchQuery(query)
   return(
-        <View style={styles.container}>
+        <ScrollView style={styles.container}>
           <View style={{marginTop:15}}>
             <Text style={styles.text}>Manage Subscriptions Page</Text>
           <Searchbar
@@ -77,22 +55,26 @@ export default function ManageSubscriptions() {
               onChangeText={onChangeSearch}
               value={searchQuery}/>
           </View>
-          {user && user.services.map(service =>(
-              <View key={service.username}>
-              <Card.Title
-                  title={service.Service}
-                  titleStyle={{color:"white"}}
-                  subtitleStyle={{color:"white"}}
-                  subtitle={service.Category}
-                  right={props => <IconButton {...props} icon="square-edit-outline" color={"white"} onPress={showDialog}/>}
-              />
-              <Divider style={styles.divider}/>
-              </View>
-
+          {user && user.services.map(user =>(
+            <View key={user.username}>
+            <Card.Title
+            title={user.Service}
+            titleStyle={{color:"white"}}
+            subtitleStyle={{color:"white"}}
+            subtitle={user.Category}
+            right={props => <IconButton {...props} icon="square-edit-outline" color={"white"} onPress={showDialog}/>}
+            />
+            <Divider style={styles.divider}/>
+            </View>
           ))
           }
           <TouchableOpacity style={styles.button} onPress={addSubscription}>
-            <Text style={styles.buttonText}>Add Subscription</Text>
+            <LinearGradient
+                style={{flex:1}}
+                colors={['#9FC6FF', '#6993FF', '#516AC2']}
+                height={'100%'}>
+            <Title style={styles.buttonText}>Add Subscription</Title>
+            </LinearGradient>
           </TouchableOpacity>
           <Provider>
             <Portal>
@@ -107,7 +89,7 @@ export default function ManageSubscriptions() {
               </Dialog>
             </Portal>
           </Provider>
-        </View>
+        </ScrollView>
     );
 }
 
@@ -127,19 +109,18 @@ const styles = StyleSheet.create({
   buttonText: {
     textAlign: "center",
     textAlignVertical: "center",
-    color: "white",
+    color: "white"
   },
   button: {
-    height: 48,
+    height: 50,
     overflow: 'hidden',
-    backgroundColor: '#40DF9F',
+    justifyContent: 'center',
     borderWidth: 1,
     borderRadius: 15,
     marginTop: 10,
     marginBottom: 10,
     marginLeft: 30,
-    marginRight: 30,
-    paddingLeft: 16
+    marginRight: 30
   },
   searchBar:{
     height:60,

@@ -81,7 +81,7 @@ export default function Home({navigation}) {
                 <Card.Content>
                 <TouchableOpacity style={styles.button} onPress={addSubscription}>
                   <LinearGradient
-                    // Button Linear Gradient
+                      style={{flex:1}}
                     colors={['#9FC6FF', '#6993FF', '#516AC2']}
                     height={'100%'}>
                     <Title style={styles.buttonText}>Add Subscription</Title>
@@ -90,16 +90,16 @@ export default function Home({navigation}) {
 
                 <TouchableOpacity style={styles.button} onPress={manageSubscription}>
                   <LinearGradient
-                      // Button Linear Gradient
+                      style={{flex:1}}
                       colors={['#9FC6FF', '#6993FF', '#516AC2']}
-                      height={'100%'}>
+                      height={48}>
                     <Title style={styles.buttonText}>Manage Subscriptions</Title>
                   </LinearGradient>
                 </TouchableOpacity>
 
                 <TouchableOpacity style={styles.button} onPress={upcomingPayments}>
                   <LinearGradient
-                      // Button Linear Gradient
+                      style={{flex:1}}
                       colors={['#9FC6FF', '#6993FF', '#516AC2']}
                       height={'100%'}>
                     <Title style={styles.buttonText}>Upcoming Payments</Title>
@@ -147,9 +147,8 @@ const styles = StyleSheet.create({
 
   },
   button: {
-    height: 48,
+    height: 50,
     overflow: 'hidden',
-    backgroundColor: '#40DF9F',
     justifyContent: 'center',
     borderWidth: 1,
     borderRadius: 15,

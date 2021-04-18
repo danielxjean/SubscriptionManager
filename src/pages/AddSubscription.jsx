@@ -3,6 +3,7 @@ import {SafeAreaView, ScrollView,View, Text, TextInput,StyleSheet, TouchableOpac
 import { Dropdown } from 'react-native-material-dropdown-v2';
 import { Header, Button } from 'react-native-elements';
 import DateTimePicker  from  '@react-native-community/datetimepicker';
+import { LinearGradient } from 'expo-linear-gradient';
 import db from '../../database/firebase';
 
 export default function AddSubscription() {
@@ -11,10 +12,13 @@ export default function AddSubscription() {
       value: 'Entertainment'
     },
     {
-      value: 'Streaming Services'
+      value: 'Music'
     },
     {
-      value: 'Bills'
+      value: 'Gaming'
+    },
+    {
+      value: 'Other'
     },
   ];
 
@@ -110,7 +114,12 @@ export default function AddSubscription() {
           )}
 
           <TouchableOpacity style={styles.button} onPress={addSubscription}>
+            <LinearGradient
+                style={{flex:1}}
+                colors={['#9FC6FF', '#6993FF', '#516AC2']}
+                height={'100%'}>
               <Text style={styles.buttonText}>Add</Text>
+            </LinearGradient>
           </TouchableOpacity>
       </ScrollView>
     </SafeAreaView>
@@ -146,16 +155,15 @@ const styles = StyleSheet.create({
     fontWeight: 'bold'
   },
   button: {
-    height: 52,
+    height: 50,
     overflow: 'hidden',
-    backgroundColor: '#40DF9F',
+    justifyContent: 'center',
     borderWidth: 1,
     borderRadius: 15,
     marginTop: 10,
-    marginBottom: 30,
+    marginBottom: 10,
     marginLeft: 30,
-    marginRight: 30,
-    paddingLeft: 16
+    marginRight: 30
  },
  buttonDate: {
   height: 48,
