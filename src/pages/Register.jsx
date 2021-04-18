@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, TouchableOpacity, ImageBackground, TextInput } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, TextInput } from 'react-native';
 import { Header, Button, Text } from 'react-native-elements';
 import { emailValidator } from '../helpers/emailValidator';
 import { passwordValidator } from '../helpers/passwordValidator';
 import { nameValidator } from '../helpers/nameValidator';
+import { firebase } from '../../database/firebase';
 import WavyHeader from '../components/WavyHeader';
 
 export default function Register({ navigation }) {
@@ -21,17 +22,44 @@ export default function Register({ navigation }) {
       setName({ ...name, error: nameError })
       setEmail({ ...email, error: emailError })
       setPassword({ ...password, error: passwordError })
-      return
     }
-    navigation.reset({
-      index: 0,
-      routes: [{ name: 'Home' }],
-    })
-  }
+
+    firebase
+            .auth()
+            .createUserWithEmailAndPassword(email.value, password.value)
+            .then((response) => {
+                const uid = response.user.uid;
+                const data = {
+                    id: uid,
+                    email: email.value,
+                    fullName: name.value,
+                };
+
+                const usersRef = firebase.firestore().collection('users');
+
+                usersRef
+                    .doc(uid)
+                    .set(data)
+                    .then(() => {
+                        navigation.navigate('Home');
+                    })
+                    .catch((error) => {
+                        alert(error)
+                    });
+            })
+            .catch((error) => {
+                alert(error);
+        });
+    }
+    // navigation.reset({
+    //   index: 0,
+    //   routes: [{ name: 'Home' }],
+    // })
+
 
   return (
     // <ImageBackground>
-    <View style={{backgroundColor: '#40DF9F', height: '100%'}}>
+    <View style={{height: '100%'}}>
       <WavyHeader customStyles={styles.svgCurve} />
           <View style={styles.headerContainer}>
             <Text style={styles.headerText}>Subscription Manager</Text>
@@ -76,7 +104,7 @@ export default function Register({ navigation }) {
       />
       <Button
         mode="contained"
-        onPress={onSignUpPressed}
+        onPress={() => onSignUpPressed()}
         title="Sign Up"
         buttonStyle={styles.button}
       />     

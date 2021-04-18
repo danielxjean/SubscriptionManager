@@ -1,8 +1,11 @@
-import firebase from 'firebase';
+import * as firebase from "firebase/app";
+import '@firebase/auth';
+import '@firebase/firestore';
 
 const firebaseConfig = {
     apiKey: "AIzaSyBnZ3n7XXZ9u7w3HLCzRlPXJUWLARHWs9A",
     authDomain: "subscriptionmanager-d881e.firebaseapp.com",
+    databaseURL: "https://subscriptionmanager-d881e.firebaseio.com",
     projectId: "subscriptionmanager-d881e",
     storageBucket: "subscriptionmanager-d881e.appspot.com",
     messagingSenderId: "92228983718",
@@ -10,9 +13,9 @@ const firebaseConfig = {
     measurementId: "G-97K2BNBTBQ"
   };
 
-firebase.initializeApp(firebaseConfig);
+  if (!firebase.apps.length)
+    firebase.initializeApp(firebaseConfig);
 
 export const db = firebase.firestore();
 
-export default firebase;
-
+export { firebase };

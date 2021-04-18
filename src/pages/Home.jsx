@@ -1,79 +1,113 @@
 import React, { useEffect, useState } from 'react'
-
-import { FlatList, Keyboard, Text, Alert, TextInput, TouchableOpacity, View, StyleSheet } from 'react-native'
+import { FlatList, Keyboard, Text, Alert, TextInput,StatusBar, TouchableOpacity, View, StyleSheet } from 'react-native';
 import {Header} from 'react-native-elements';
-// import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Card, Title, Paragraph } from 'react-native-paper';
-
-// import Settings from './Settings';
-// import Subscriptions from './Subscriptions';
-// import Menu from './Menu';
-
-// const Tab = createBottomTabNavigator();
+import { firebase,db } from '../../database/firebase';
+import {Card, Title, Paragraph, Headline} from 'react-native-paper';
+import { LinearGradient } from 'expo-linear-gradient';
 
 
-
-
-export default function Home({ navigation }) {
+export default function Home({navigation}) {
   const [entityText, setEntityText] = useState('');
+  const [Sum, setSum] = useState(0);
+  const backgroundColor='#FFC542';
+ useEffect(()=>{
+   if (Platform.OS == 'android') {
+     StatusBar.setBarStyle('light-content', true)
+     StatusBar.setBackgroundColor("#2A3C44")
+   }
+   _fetchSum();
+  }, [Sum])
+
+  const _fetchSum = async () =>{
+
+    var docRef = db.collection("users").doc("test1");
+
+    docRef.get().then((doc) => {
+      if (doc.exists) {
+        let currSum=0;
+        const UserInfo=doc.data().services
+        console.log(UserInfo);
+        for(var i=0;i<UserInfo.length;i++)
+          currSum+=UserInfo[i].packages
+        setSum(currSum)
+      } else {
+        // doc.data() will be undefined in this case
+        console.log("No such document!");
+      }
+    }).catch((error) => {
+      console.log("Error getting document:", error);
+    });
+  }
   const addSubscription = () =>
-      Alert.alert("Button for adding Subscriptions (TODO!");
+      navigation.navigate('AddSubscription');
 
   const manageSubscription = () =>
-      navigation.navigate('ManageSubscriptions');
+      Alert.alert("Button for managing Subscriptions (TODO!");
 
   const statistics = () =>
-      Alert.alert("Button for statistics (TODO!");
+      navigation.navigate('Statistics');
 
   const upcomingPayments = () =>
       Alert.alert("Button for upcomingPayments (TODO!");
 
-  const logout = () =>
-      Alert.alert("Button for log out (TODO)!");
-
+  const logout = () => {
+    Alert.alert('logging out');
+    firebase.auth().signOut();
+  }
         return(
           <View>
-            <Header
-              leftComponent={{ icon: 'add', color: '#fff', onPress: () => addSubscription() }}
-              centerComponent={{ text: 'Subscription Manager', style: { color: '#fff' } }}
-              rightComponent={{ text: 'Logout', style: { color: '#fff' }, onPress: () => logout() }}
-              containerStyle={{
-                backgroundColor: '#1A282F',
-                justifyContent: 'space-around',
-              }}
-                />
+            <View style = {{ backgroundColor: backgroundColor, height: '100%'}}>
 
-            <View style = {{ backgroundColor: '#1A282F', height: '80%'}}>
-
-                <Card>
-                  <Card.Content style={styles.card}>
-                    <Title>Monthly Cost</Title>
-                    <Paragraph>123$</Paragraph>
+                <Card style={styles.monthlyCard}>
+                  <Card.Content>
+                    <Title style={{textAlign:"center"}}>Monthly Cost</Title>
+                    <Headline style={{textAlign:"center"}}>{Sum}$</Headline>
                   </Card.Content>
                 </Card>
 
+              <Card style={styles.buttonCard}>
+                <Card.Content>
                 <TouchableOpacity style={styles.button} onPress={addSubscription}>
-                    <Text style={styles.buttonText}>Add Subscription</Text>
+                  <LinearGradient
+                    // Button Linear Gradient
+                    colors={['#9FC6FF', '#6993FF', '#516AC2']}
+                    height={'100%'}>
+                    <Title style={styles.buttonText}>Add Subscription</Title>
+                </LinearGradient>
                 </TouchableOpacity>
 
                 <TouchableOpacity style={styles.button} onPress={manageSubscription}>
-                    <Text style={styles.buttonText}>Manage Subscriptions</Text>
+                  <LinearGradient
+                      // Button Linear Gradient
+                      colors={['#9FC6FF', '#6993FF', '#516AC2']}
+                      height={'100%'}>
+                    <Title style={styles.buttonText}>Manage Subscriptions</Title>
+                  </LinearGradient>
                 </TouchableOpacity>
 
                 <TouchableOpacity style={styles.button} onPress={statistics}>
-                    <Text style={styles.buttonText}>Statistics</Text>
+                  <LinearGradient
+                      // Button Linear Gradient
+                      colors={['#9FC6FF', '#6993FF', '#516AC2']}
+                      height={'100%'}>
+                    <Title style={styles.buttonText}>Statistics</Title>
+                  </LinearGradient>
                 </TouchableOpacity>
 
                 <TouchableOpacity style={styles.button} onPress={upcomingPayments}>
-                    <Text style={styles.buttonText}>Upcoming Payments</Text>
+                  <LinearGradient
+                      // Button Linear Gradient
+                      colors={['#9FC6FF', '#6993FF', '#516AC2']}
+                      height={'100%'}>
+                    <Title style={styles.buttonText}>Upcoming Payments</Title>
+                  </LinearGradient>
                 </TouchableOpacity>
-            </View>
 
-              {/* <Tab.Navigator>
-                    <Tab.Screen name="Subscriptions" component={Subscriptions}  />
-                    <Tab.Screen name="Settings" component={Settings} />
-                    <Tab.Screen name="Menu" component={Menu} />
-              </Tab.Navigator> */}
+                </Card.Content>
+
+              </Card>
+
+            </View>
           </View>
           
         );
@@ -82,11 +116,14 @@ export default function Home({ navigation }) {
 
 
 const styles = StyleSheet.create({
+
+   footer: {
+    zIndex: 999
+   },
   container: {
     flex: 1,
     flexDirection: "column",
     backgroundColor: "#30444E"
-
   },
   image: {
     flex: 1,
@@ -103,19 +140,20 @@ const styles = StyleSheet.create({
   buttonText: {
     textAlign: "center",
     textAlignVertical: "center",
-    color: "white",
+    color: "white"
+
   },
   button: {
     height: 48,
     overflow: 'hidden',
     backgroundColor: '#40DF9F',
+    justifyContent: 'center',
     borderWidth: 1,
     borderRadius: 15,
     marginTop: 10,
     marginBottom: 10,
     marginLeft: 30,
-    marginRight: 30,
-    paddingLeft: 16     
+    marginRight: 30
  },
   input: {
     height: 48,
@@ -128,16 +166,19 @@ const styles = StyleSheet.create({
     marginRight: 30,
     paddingLeft: 16
   },
-  card: {
-    height: 48,
+  monthlyCard: {
     borderRadius: 20,
     overflow: 'hidden',
-    backgroundColor: '#FFC542',
     marginTop: 40,
     marginBottom: 50,
-    marginLeft: 15,
-    marginRight: 30,
-    textAlign: "center",
-    paddingBottom: 20
+    marginLeft: 30,
+    marginRight: 30
+  },
+  buttonCard: {
+    borderRadius: 20,
+    overflow: 'hidden',
+    height:'100%',
+    backgroundColor: '#2A3C44',
+    zIndex: 1
   }
 });
