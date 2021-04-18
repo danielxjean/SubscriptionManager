@@ -31,7 +31,7 @@ export default function Register({ navigation }) {
             .then((response) => {
                 const uid = response.user.uid;
                 const data = {
-                    id: uid,
+                    id: name.value,
                     email: email.value,
                     fullName: name.value,
                 };

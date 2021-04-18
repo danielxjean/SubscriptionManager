@@ -17,14 +17,14 @@ Alert.alert("Button for statistics (TODO!");
 const upcomingPayments = () => 
 Alert.alert("Button for upcomingPayments (TODO!");
 
-const logout = () => {
-  Alert.alert('logging out'); 
-  firebase.auth().signOut();
-}
 
+export default function Home( {navigation}) {
 
-
-export default function Home() {
+  const logout = () => {
+    firebase.auth().signOut().then(() => {
+      navigation.navigate('Login')
+    })
+    .catch(error => console.log(error))}
 
   const [entityText, setEntityText] = useState('');
 

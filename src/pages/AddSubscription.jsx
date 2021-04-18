@@ -7,18 +7,19 @@ import { firebase } from '../../database/firebase';
 
 export default function AddSubscription() {
 
-  const addSubscription = () => {
+  const currentUser = firebase.auth().currentUser;
 
+  const addSubscription = () => {
     const subscription = {
       Service: subscriptionName,
-      packages: monthlyCost,
+      packages: parseInt(monthlyCost),
       Category: category,
       Date: paymentDate
     };
 
     let services = null
     
-    const db = firebase.firestore().collection('users').doc('test1').get()
+    const db = firebase.firestore().collection('users').doc(currentUser.uid).get()
     .then(snap => {
       if (!snap.exists) {
         console.log('No such document!');``
@@ -27,11 +28,15 @@ export default function AddSubscription() {
 
       services = snap.data()
       const s = services.services
+      if (typeof s === 'undefined') {
+        firebase.firestore().collection('users').doc(currentUser.uid).update({services: [subscription]})
+      } else {
       s.push(subscription)
       services.services = [...s]
 
-      firebase.firestore().collection('users').doc('test1').set(services)
-      
+      firebase.firestore().collection('users').doc(currentUser.uid).set(services)
+      console.log(services)
+      }
     })
     .catch((error) => {
         console.log("Error getting document:", error);
@@ -59,6 +64,9 @@ export default function AddSubscription() {
 
   return(
       <View style={{ flex: 1, justifyContent: 'center', width: '100%', backgroundColor: '#30444E'}}>
+        <Text style={styles.text}>
+          Add Subscription
+        </Text>
         <TextInput
             style={styles.input}
             placeholder='Subscription name'
@@ -140,10 +148,10 @@ const styles = StyleSheet.create({
   },
   text: {
     color: "white",
-    fontSize: 42,
+    fontSize: 25,
     fontWeight: "bold",
     textAlign: "center",
-    backgroundColor: "#1A282F"
+    paddingBottom: 60
   },
   buttonText: {
     paddingTop: 12,

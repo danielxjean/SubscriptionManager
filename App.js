@@ -5,6 +5,9 @@ import Settings from './src/pages/Settings.jsx';
 import Menu from './src/pages/Menu.jsx';
 import Home from './src/pages/Home.jsx';
 import AddSubscription from './src/pages/AddSubscription';
+import Profile from './src/pages/Profile';
+import ManageSubscriptions from './src/pages/ManageSubscriptions';
+import UpcomingPayments from './src/pages/UpcomingPayments';
 import LandingPage from './src/pages/LandingPage.jsx';
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from '@react-navigation/native';
@@ -18,8 +21,40 @@ if (!global.btoa) {  global.btoa = encode }
 if (!global.atob) { global.atob = decode }
 
 const Stack = createStackNavigator();
+const MenuStack = createStackNavigator();
 const Tab = createMaterialBottomTabNavigator()
 
+function MenuStackScreen() {
+  return (
+    <MenuStack.Navigator>
+      <MenuStack.Screen
+        name="Menu"
+        component={Menu}
+        options={{ tabBarLabel: 'Menu!' }}
+      />
+      {/* <MenuStack.Screen
+        name="Settings"
+        component={Settings}
+        options={{ tabBarLabel: 'Settings!' }}
+      /> */}
+      <MenuStack.Screen
+        name="AddSubscription"
+        component={AddSubscription}
+        options={{ tabBarLabel: 'AddSubscription!' }}
+      />
+      <MenuStack.Screen
+        name="UpcomingPayments"
+        component={UpcomingPayments}
+        options={{ tabBarLabel: 'UpcomingPayments!' }}
+      />
+      <MenuStack.Screen
+        name="ManageSubscriptions"
+        component={ManageSubscriptions}
+        options={{ tabBarLabel: 'ManageSubscriptions!' }}
+      />      
+    </MenuStack.Navigator>
+  );
+}
 export default function App() {
 
   const [loading, setLoading] = useState(true);
@@ -119,7 +154,7 @@ function MainTabNavigator() {
       >
         <Tab.Screen 
             name='Menu' 
-            component={Settings} 
+            component={MenuStackScreen} 
             options={{
                 tabBarLabel: 'Menu',
                 tabBarIcon: ({ color }) => (
@@ -138,10 +173,10 @@ function MainTabNavigator() {
               }}
         />
         <Tab.Screen 
-            name='AddSubscription' 
-            component={AddSubscription} 
+            name='Profile' 
+            component={Profile} 
             options={{
-                tabBarLabel: 'Settings',
+                tabBarLabel: 'Profile',
                 tabBarIcon: ({ color }) => (
                   <MaterialCommunityIcons name="account" color={color} size={26} />
                 ),
