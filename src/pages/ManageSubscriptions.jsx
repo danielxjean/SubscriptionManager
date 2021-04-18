@@ -83,7 +83,7 @@ export default function ManageSubscriptions({navigation}) {
           {user &&user.services && user.services.map(user =>(
             <View key={user.usernam}>
             <Card.Title
-            title={user.Service}
+            title={user.Service+" - "+user.packages+"$"}
             titleStyle={{color:"white"}}
             subtitleStyle={{color:"white"}}
             subtitle={user.Category}
