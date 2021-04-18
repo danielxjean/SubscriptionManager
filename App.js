@@ -23,14 +23,14 @@ const Tab = createMaterialBottomTabNavigator()
 export default function App() {
 
   const [loading, setLoading] = useState(true);
-  const [userLogged, setUserLogged] = useState(false);
+  // const [userLogged, setUserLogged] = useState(false);
   const [user, setUser] = useState('');
 
   useEffect(() => {
     const usersRef = firebase.firestore().collection('users');
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
-          setUserLogged(user ? true : false);
+          // setUserLogged(user ? true : false);
         usersRef.doc(user.uid).get()
           .then((document) => {
             const userData = document.data()
@@ -39,11 +39,11 @@ export default function App() {
           })
           .catch((error) => {
             setLoading(false);
-            setUserLogged(false);
+            // setUserLogged(false);
           });
       } else {
         setLoading(false);
-        setUserLogged(false);
+        // setUserLogged(false);
       }
     });
   }, []);
@@ -61,7 +61,7 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator> 
       {/* { user ? initialRouteName={}} */}
-        { userLogged == false ? (
+        { user ? (
             <>
             <Stack.Screen 
               name="Home" 

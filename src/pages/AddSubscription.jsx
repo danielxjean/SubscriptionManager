@@ -1,38 +1,54 @@
 import React, { useState } from "react";
 import { View, Text, TextInput,StyleSheet, TouchableOpacity, Alert } from "react-native";
-import { Dropdown } from 'react-native-material-dropdown-v2';
-import { Header, Button } from 'react-native-elements';
+import ModalDropdown from 'react-native-modal-dropdown';
+import { Button } from 'react-native-elements';
 import DateTimePicker  from  '@react-native-community/datetimepicker';
-import firebase from '../../database/firebase';
+import { firebase } from '../../database/firebase';
 
 export default function AddSubscription() {
-  let category = [
-    {
-      value: 'Entertainment'
-    },
-    {
-      value: 'Streaming Services'
-    },
-    {
-      value: 'Bills'
-    },
-  ];
 
-  const addSubscription = () => 
-  Alert.alert("Button for adding Subscriptions (TODO!");
+  const addSubscription = () => {
 
-  // firebase.firestore()
+    const subscription = {
+      Service: subscriptionName,
+      packages: monthlyCost,
+      Category: category,
+      Date: paymentDate
+    };
+
+    let services = null
+    
+    const db = firebase.firestore().collection('users').doc('test1').get()
+    .then(snap => {
+      if (!snap.exists) {
+        console.log('No such document!');``
+        return;
+      }
+
+      services = snap.data()
+      const s = services.services
+      s.push(subscription)
+      services.services = [...s]
+
+      firebase.firestore().collection('users').doc('test1').set(services)
+      
+    })
+    .catch((error) => {
+        console.log("Error getting document:", error);
+    });
+  
+}
 
   const [paymentDate, setPaymentDate] = useState(new Date());
   const [monthlyCost, setMonthlyCost] = useState('');
   const [subscriptionName, setSubscriptionName] = useState('');
-
+  const [category, setCategory] = useState('');
 
   const [show, setShow] = useState(false);
 
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || paymentDate;
-    setShow(Platform.OS === 'android');
+    setShow(Platform.OS === 'ios');
     setPaymentDate(currentDate);
   };  
 
@@ -42,13 +58,11 @@ export default function AddSubscription() {
 
 
   return(
-    // <View>
-      // <Header centerComponent={{ text: 'Add Subscription', style: { color: '#fff' } }} />
       <View style={{ flex: 1, justifyContent: 'center', width: '100%', backgroundColor: '#30444E'}}>
         <TextInput
             style={styles.input}
             placeholder='Subscription name'
-            placeholderTextColor="#aaaaaa"
+            placeholderTextColor="white"
             onChangeText={(text) => setSubscriptionName(text)}
             value={subscriptionName}
             underlineColorAndroid="transparent"
@@ -58,19 +72,20 @@ export default function AddSubscription() {
             style={styles.input}
             placeholder='Monthly cost'
             keyboardType = 'numeric'
-            placeholderTextColor="#aaaaaa"
+            placeholderTextColor="white"
             onChangeText={(text) => setMonthlyCost(text)}
             value={monthlyCost}
             underlineColorAndroid="transparent"
             autoCapitalize="none"
         />
-          <Dropdown 
-            placeholder = "Category"
-            data = {category}
-            style = {styles.dropdown}
-            placeholderTextColor = "#aaaaaa"
-            selectedItemColor	 = "#aaaaaa"
+
+          <ModalDropdown 
+              options={['Entertainment', 'Streaming Services', 'Bills']}
+              style={styles.dropdown}
+              onSelect={(text) => setCategory(text)}
+              textStyle={{color:'white'}}
           />
+
           <View style={{flexDirection:'row'}}>
 
               <TextInput
@@ -88,10 +103,11 @@ export default function AddSubscription() {
                   onPress={showDatepicker} 
                   title="Date" 
                   buttonStyle={styles.buttonDate} 
+                  titleStyle={{color:'white'}}
               />
 
           </View>
-          
+
           {show && (<DateTimePicker
             testID="dateTimePicker"
             value={paymentDate}
@@ -106,8 +122,6 @@ export default function AddSubscription() {
               <Text style={styles.buttonText}>Add</Text>
           </TouchableOpacity>
       </View>
-    // </View>
-
     );
 }
 
@@ -147,56 +161,64 @@ const styles = StyleSheet.create({
     marginBottom: 30,
     marginLeft: 30,
     marginRight: 30,
-    paddingLeft: 16     
+    paddingLeft: 16,
+    borderColor: 'black'
  },
- buttonDate: {
-  height: 48,
-  overflow: 'hidden',
-  backgroundColor: '#1A282F',
-  opacity: 0.5,
-  borderWidth: 1,
-  borderColor: '#1A282F',
-  borderRadius: 15,
-  marginTop: 10,
-  marginBottom: 10,
-  marginLeft: 30,
-  marginRight: 30,
-  paddingLeft: 16,
-  width: '40%' 
-},
- dropdown: {
-  height: 48,
-  overflow: 'hidden',
-  backgroundColor: '#1A282F',
-  borderWidth: 1,
-  borderRadius: 5,
-  marginTop: 10,
-  marginBottom: 10,
-  marginLeft: 30,
-  marginRight: 30,
-  paddingLeft: 16  
- },
- input: {
-  height: 48,
-  borderRadius: 5,
-  overflow: 'hidden',
-  backgroundColor: '#1A282F',
-  marginTop: 10,
-  marginBottom: 10,
-  marginLeft: 30,
-  marginRight: 30,
-  paddingLeft: 16
-},
-inputDate: {
-  height: 48,
-  borderRadius: 5,
-  overflow: 'hidden',
-  backgroundColor: '#1A282F',
-  marginTop: 10,
-  marginBottom: 10,
-  marginLeft: 30,
-  marginRight: 0,
-  paddingLeft: 16,
-  width: '50%',
-},
+  buttonDate: {
+    height: 48,
+    overflow: 'hidden',
+    backgroundColor: '#1A282F',
+    opacity: 0.5,
+    borderWidth: 1,
+    borderColor: '#1A282F',
+    borderRadius: 15,
+    marginTop: 10,
+    marginBottom: 10,
+    marginLeft: 30,
+    marginRight: 30,
+    paddingLeft: 16,
+    width: '40%',
+    borderColor: 'black'
+  },
+  dropdown: {
+    height: 48,
+    overflow: 'hidden',
+    backgroundColor: '#1A282F',
+    borderWidth: 1,
+    borderRadius: 5,
+    paddingTop: 15,
+    marginTop: 10,
+    marginBottom: 10,
+    marginLeft: 30,
+    marginRight: 30,
+    paddingLeft: 16,
+    color: 'white'
+  },
+  input: {
+    height: 48,
+    borderRadius: 5,
+    borderWidth: 1,
+    overflow: 'hidden',
+    backgroundColor: '#1A282F',
+    marginTop: 10,
+    marginBottom: 10,
+    marginLeft: 30,
+    marginRight: 30,
+    paddingLeft: 16,
+    color: 'white',
+    borderColor: 'black'
+  },
+  inputDate: {
+    height: 48,
+    borderRadius: 5,
+    overflow: 'hidden',
+    backgroundColor: '#1A282F',
+    marginTop: 10,
+    marginBottom: 10,
+    marginLeft: 30,
+    marginRight: 0,
+    paddingLeft: 16,
+    width: '50%',
+    color: 'white'
+  },
 });

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, StyleSheet, TouchableOpacity, TextInput } from 'react-native';
-import { Header, Button, Text } from 'react-native-elements';
+import { Button, Text } from 'react-native-elements';
 import { emailValidator } from '../helpers/emailValidator';
 import { passwordValidator } from '../helpers/passwordValidator';
 import { nameValidator } from '../helpers/nameValidator';
@@ -51,16 +51,10 @@ export default function Register({ navigation }) {
             .catch((error) => {
                 alert(error);
         });
-    }
-    // navigation.reset({
-    //   index: 0,
-    //   routes: [{ name: 'Home' }],
-    // })
-  
+    }  
 
   return (
-    // <ImageBackground>
-    <View style={{backgroundColor: '#40DF9F', height: '100%'}}>
+    <View style={{height: '100%'}}>
       <WavyHeader customStyles={styles.svgCurve} />
           <View style={styles.headerContainer}>
             <Text style={styles.headerText}>Subscription Manager</Text>
@@ -153,7 +147,8 @@ const styles = StyleSheet.create({
   marginBottom: 10,
   marginLeft: 30,
   marginRight: 30,
-  paddingLeft: 16
+  paddingLeft: 16,
+  color:'white'
 },
 svgCurve: {
   position: 'absolute',
