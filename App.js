@@ -85,15 +85,6 @@ export default function App() {
                   {headerShown: false}
                   }
               />
-              <Stack.Screen
-                  name="Statistics"
-                  component={Statistics}
-                  options={
-                    { title: 'Statistics' },
-                  {headerLeft: null},
-                  {headerShown: false}
-                  }
-              />
             </>
         ) : (
           <>
@@ -160,10 +151,10 @@ function MainTabNavigator() {
               }}
         />
         <Tab.Screen
-            name='Statistics'
-            component={Statistics}
+            name='AddSubscription'
+            component={AddSubscription}
             options={{
-                tabBarLabel: 'Statistic',
+                tabBarLabel: 'AddSubscription',
                 tabBarIcon: ({ color }) => (
                   <MaterialCommunityIcons name="account" color={color} size={26} />
                 ),

@@ -50,9 +50,6 @@ export default function Statistics({navigation}) {
   }
 
     return (
-
-        <View>
-            <View style = {{ backgroundColor: '#2A3C44', height: '100%'}}>
                  <Card style={styles.monthlyCard}>
                      <Card.Content>
                         <Text style={styles.header}>Statistics</Text>
@@ -78,14 +75,7 @@ export default function Statistics({navigation}) {
                        }
                      </Card.Content>
                  </Card>
-            </View>
-
-
-
-        </View>
-
     )
-
 }
 
 const styles = StyleSheet.create({

@@ -1,15 +1,27 @@
 import React, { useEffect, useState } from 'react'
-import { FlatList, Keyboard, Text, Alert, TextInput,StatusBar, TouchableOpacity, View, StyleSheet } from 'react-native';
+import {
+  FlatList,
+  Keyboard,
+  Text,
+  Alert,
+  TextInput,
+  StatusBar,
+  TouchableOpacity,
+  View,
+  StyleSheet,
+  ScrollView
+} from 'react-native';
 import {Header} from 'react-native-elements';
 import { firebase,db } from '../../database/firebase';
 import {Card, Title, Paragraph, Headline} from 'react-native-paper';
 import { LinearGradient } from 'expo-linear-gradient';
+import Statistics from "./Statistics";
 
 
 export default function Home({navigation}) {
   const [entityText, setEntityText] = useState('');
   const [Sum, setSum] = useState(0);
-  const backgroundColor='#FFC542';
+  const backgroundColor='#2A3C44';
  useEffect(()=>{
    if (Platform.OS == 'android') {
      StatusBar.setBarStyle('light-content', true)
@@ -55,7 +67,7 @@ export default function Home({navigation}) {
     firebase.auth().signOut();
   }
         return(
-          <View>
+          <ScrollView>
             <View style = {{ backgroundColor: backgroundColor, height: '100%'}}>
 
                 <Card style={styles.monthlyCard}>
@@ -64,7 +76,7 @@ export default function Home({navigation}) {
                     <Headline style={{textAlign:"center"}}>{Sum}$</Headline>
                   </Card.Content>
                 </Card>
-
+              <Statistics/>
               <Card style={styles.buttonCard}>
                 <Card.Content>
                 <TouchableOpacity style={styles.button} onPress={addSubscription}>
@@ -85,15 +97,6 @@ export default function Home({navigation}) {
                   </LinearGradient>
                 </TouchableOpacity>
 
-                <TouchableOpacity style={styles.button} onPress={statistics}>
-                  <LinearGradient
-                      // Button Linear Gradient
-                      colors={['#9FC6FF', '#6993FF', '#516AC2']}
-                      height={'100%'}>
-                    <Title style={styles.buttonText}>Statistics</Title>
-                  </LinearGradient>
-                </TouchableOpacity>
-
                 <TouchableOpacity style={styles.button} onPress={upcomingPayments}>
                   <LinearGradient
                       // Button Linear Gradient
@@ -108,7 +111,7 @@ export default function Home({navigation}) {
               </Card>
 
             </View>
-          </View>
+          </ScrollView>
           
         );
 
@@ -168,6 +171,7 @@ const styles = StyleSheet.create({
   },
   monthlyCard: {
     borderRadius: 20,
+    backgroundColor:"#9FC6FF",
     overflow: 'hidden',
     marginTop: 40,
     marginBottom: 50,
