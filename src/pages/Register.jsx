@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, StyleSheet, TouchableOpacity, TextInput } from 'react-native';
-import { Header, Button, Text } from 'react-native-elements';
+import { Button, Text } from 'react-native-elements';
 import { emailValidator } from '../helpers/emailValidator';
 import { passwordValidator } from '../helpers/passwordValidator';
 import { nameValidator } from '../helpers/nameValidator';
@@ -22,6 +22,7 @@ export default function Register({ navigation }) {
       setName({ ...name, error: nameError })
       setEmail({ ...email, error: emailError })
       setPassword({ ...password, error: passwordError })
+      return
     }
 
     firebase
@@ -30,12 +31,12 @@ export default function Register({ navigation }) {
             .then((response) => {
                 const uid = response.user.uid;
                 const data = {
-                    id: uid,
+                    id: name.value,
                     email: email.value,
                     fullName: name.value,
                 };
 
-                const usersRef = firebase.firestore().collection('users');
+                const usersRef = firebase.firestore().collection('users');  
 
                 usersRef
                     .doc(uid)
@@ -51,14 +52,8 @@ export default function Register({ navigation }) {
                 alert(error);
         });
     }
-    // navigation.reset({
-    //   index: 0,
-    //   routes: [{ name: 'Home' }],
-    // })
-
 
   return (
-    // <ImageBackground>
     <View style={{height: '100%'}}>
       <WavyHeader customStyles={styles.svgCurve} />
           <View style={styles.headerContainer}>
@@ -152,7 +147,8 @@ const styles = StyleSheet.create({
   marginBottom: 10,
   marginLeft: 30,
   marginRight: 30,
-  paddingLeft: 16
+  paddingLeft: 16,
+  color:'white'
 },
 svgCurve: {
   position: 'absolute',

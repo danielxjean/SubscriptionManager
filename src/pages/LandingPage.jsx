@@ -22,24 +22,6 @@ export default function LandingPage({ navigation }) {
         onPress={() => navigation.navigate('Register')}
         title="Sign Up"
         buttonStyle={styles.button}
-      /> 
-      <Button
-        mode="contained"
-        onPress={() => navigation.navigate('Home')}
-        title="Home (temporary)"
-        buttonStyle={styles.button}
-      /> 
-      <Button
-        mode="contained"
-        onPress={() => navigation.navigate('AddSubscription')}
-        title="AddSubscription (temporary)"
-        buttonStyle={styles.button}
-      />
-      <Button
-        mode="contained"
-        onPress={() => navigation.navigate('Statistics')}
-        title="Statistics (temporary)"
-        buttonStyle={styles.button}
       />
       </ImageBackground>
     </View>
@@ -61,7 +43,9 @@ const styles = StyleSheet.create({
       fontSize: 42,
       fontWeight: "bold",
       textAlign: "center",
-      backgroundColor: "#000000a0"
+      backgroundColor: "#000000a0",
+      borderWidth: 1,
+      borderRadius: 15
     },
     button: {
       backgroundColor: '#000000a0',

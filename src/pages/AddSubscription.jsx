@@ -1,38 +1,49 @@
 import React, { useState } from "react";
-import {SafeAreaView, ScrollView,View, Text, TextInput,StyleSheet, TouchableOpacity, Alert } from "react-native";
-import { Dropdown } from 'react-native-material-dropdown-v2';
-import { Header, Button } from 'react-native-elements';
+import { ScrollView,View,SafeAreaView, Text, TextInput,StyleSheet, TouchableOpacity, Alert } from "react-native";
+import ModalDropdown from 'react-native-modal-dropdown';
+import { Button } from 'react-native-elements';
 import DateTimePicker  from  '@react-native-community/datetimepicker';
 import { LinearGradient } from 'expo-linear-gradient';
-import db from '../../database/firebase';
+import { firebase } from '../../database/firebase';
 
 export default function AddSubscription() {
-  let category = [
-    {
-      value: 'Entertainment'
-    },
-    {
-      value: 'Music'
-    },
-    {
-      value: 'Gaming'
-    },
-    {
-      value: 'Other'
-    },
-  ];
 
-  const addSubscription = () =>{
-    // db.collection("users").doc("test1").set({username:"test1",password:"test1",
-//   services:[
-//     {Service:"Netflix",packages:10,Category:"Entertainment"},
-//     {Service:"Prime Video",packages:5,Category:"Entertainment"}]})
-// .then(() => {
-//   console.log("Document successfully written!");
-// })
-// .catch((error) => {
-//   console.error("Error writing document: ", error);
-  }
+  const currentUser = firebase.auth().currentUser;
+
+  const addSubscription = () => {
+    const subscription = {
+      Service: subscriptionName,
+      packages: parseInt(monthlyCost),
+      Category: category,
+      Date: paymentDate
+    };
+
+    let services = null
+
+    const db = firebase.firestore().collection('users').doc(currentUser.uid).get()
+    .then(snap => {
+      if (!snap.exists) {
+        console.log('No such document!');``
+        return;
+      }
+
+      services = snap.data()
+      const s = services.services
+      if (typeof s === 'undefined') {
+        firebase.firestore().collection('users').doc(currentUser.uid).update({services: [subscription]})
+      } else {
+      s.push(subscription)
+      services.services = [...s]
+
+      firebase.firestore().collection('users').doc(currentUser.uid).set(services)
+      console.log(services)
+      }
+    })
+    .catch((error) => {
+        console.log("Error getting document:", error);
+    });
+
+}
 
   const [paymentDate, setPaymentDate] = useState(new Date());
   const [monthlyCost, setMonthlyCost] = useState('');
@@ -55,11 +66,13 @@ export default function AddSubscription() {
   return(
     <SafeAreaView  style={{ backgroundColor: '#2A3C44', height: '100%'}}>
       <ScrollView style={{ paddingTop: 225, backgroundColor: '#2A3C44', height: '100%'}}>
-
+        <Text style={styles.text}>
+          Add Subscription
+        </Text>
         <TextInput
             style={styles.input}
             placeholder='Subscription name'
-            placeholderTextColor="#aaaaaa"
+            placeholderTextColor="white"
             onChangeText={(text) => setSubscriptionName(text)}
             value={subscriptionName}
             underlineColorAndroid="transparent"
@@ -69,18 +82,18 @@ export default function AddSubscription() {
             style={styles.input}
             placeholder='Monthly cost'
             keyboardType = 'numeric'
-            placeholderTextColor="#aaaaaa"
+            placeholderTextColor="white"
             onChangeText={(text) => setMonthlyCost(text)}
             value={monthlyCost}
             underlineColorAndroid="transparent"
             autoCapitalize="none"
         />
-          <Dropdown
-            placeholder = "Category"
-            data = {category}
-            style = {styles.dropdown}
-            placeholderTextColor = "#aaaaaa"
-            selectedItemColor	 = "#aaaaaa"
+
+          <ModalDropdown
+              options={['Entertainment', 'Music', 'Gaming','Other']}
+              style={styles.dropdown}
+              onSelect={(text) => setCategory(text)}
+              textStyle={{color:'white'}}
           />
           <View style={{flexDirection:'row'}}>
 
@@ -95,14 +108,15 @@ export default function AddSubscription() {
                   onPress = {showDatepicker}
               />
 
-              <Button
-                  onPress={showDatepicker}
-                  title="Date"
+              <Button 
+                  onPress={showDatepicker} 
+                  title="Date" 
                   buttonStyle={styles.buttonDate}
+                  titleStyle={{color:'white'}}
               />
 
           </View>
-
+          
           {show && (<DateTimePicker
             testID="dateTimePicker"
             value={paymentDate}
@@ -142,10 +156,10 @@ const styles = StyleSheet.create({
   },
   text: {
     color: "white",
-    fontSize: 42,
+    fontSize: 25,
     fontWeight: "bold",
     textAlign: "center",
-    backgroundColor: "#1A282F"
+    paddingBottom: 60
   },
   buttonText: {
     paddingTop: 12,
@@ -165,54 +179,61 @@ const styles = StyleSheet.create({
     marginLeft: 30,
     marginRight: 30
  },
- buttonDate: {
-  height: 48,
-  overflow: 'hidden',
-  backgroundColor: '#1A282F',
-  opacity: 0.5,
-  borderWidth: 1,
-  borderColor: '#1A282F',
-  borderRadius: 15,
-  marginTop: 10,
-  marginBottom: 10,
-  marginLeft: 30,
-  marginRight: 30,
-  paddingLeft: 16,
-  width: '40%'
-},
- dropdown: {
-  height: 48,
-  overflow: 'hidden',
-  backgroundColor: '#1A282F',
-  borderWidth: 1,
-  borderRadius: 5,
-  marginTop: 10,
-  marginBottom: 10,
-  marginLeft: 30,
-  marginRight: 30,
-  paddingLeft: 16
- },
- input: {
-  height: 48,
-  borderRadius: 5,
-  overflow: 'hidden',
-  backgroundColor: '#1A282F',
-  marginTop: 10,
-  marginBottom: 15,
-  marginLeft: 30,
-  marginRight: 30,
-  paddingLeft: 16
-},
-inputDate: {
-  height: 48,
-  borderRadius: 5,
-  overflow: 'hidden',
-  backgroundColor: '#1A282F',
-  marginTop: 10,
-  marginBottom: 10,
-  marginLeft: 30,
-  marginRight: 0,
-  paddingLeft: 16,
-  width: '50%',
-},
+  buttonDate: {
+    height: 48,
+    overflow: 'hidden',
+    backgroundColor: '#1A282F',
+    opacity: 0.5,
+    borderWidth: 1,
+    borderColor: '#1A282F',
+    borderRadius: 15,
+    marginTop: 10,
+    marginBottom: 10,
+    marginLeft: 30,
+    marginRight: 30,
+    paddingLeft: 16,
+    width: '40%',
+    borderColor: 'black'
+  },
+  dropdown: {
+    height: 48,
+    overflow: 'hidden',
+    backgroundColor: '#1A282F',
+    borderWidth: 1,
+    borderRadius: 5,
+    paddingTop: 15,
+    marginTop: 10,
+    marginBottom: 10,
+    marginLeft: 30,
+    marginRight: 30,
+    paddingLeft: 16,
+    color: 'white'
+  },
+  input: {
+    height: 48,
+    borderRadius: 5,
+    borderWidth: 1,
+    overflow: 'hidden',
+    backgroundColor: '#1A282F',
+    marginTop: 10,
+    marginBottom: 10,
+    marginLeft: 30,
+    marginRight: 30,
+    paddingLeft: 16,
+    color: 'white',
+    borderColor: 'black'
+  },
+  inputDate: {
+    height: 48,
+    borderRadius: 5,
+    overflow: 'hidden',
+    backgroundColor: '#1A282F',
+    marginTop: 10,
+    marginBottom: 10,
+    marginLeft: 30,
+    marginRight: 0,
+    paddingLeft: 16,
+    width: '50%',
+    color: 'white'
+  },
 });
