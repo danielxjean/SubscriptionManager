@@ -4,10 +4,61 @@ import ModalDropdown from 'react-native-modal-dropdown';
 import { Button } from 'react-native-elements';
 import DateTimePicker  from  '@react-native-community/datetimepicker';
 import { LinearGradient } from 'expo-linear-gradient';
+import { RadioButton } from 'react-native-paper';
 import { firebase } from '../../database/firebase';
 
 export default function AddSubscription({navigation}) {
   const currentUser = firebase.auth().currentUser;
+  const [value, setValue] = React.useState(true);
+  const [paymentDate, setPaymentDate] = useState(new Date());
+  const [monthlyCost, setMonthlyCost] = useState('');
+  const [subscriptionName, setSubscriptionName] = useState('');
+  const [category, setCategory] = useState('');
+  const [packages, setPackages] = useState([10]);
+  const [show, setShow] = useState(false);
+
+  const setDropDownPackages= (serviceName) =>{
+    console.log(serviceName)
+    if(serviceName==0) {
+      setSubscriptionName("Netflix")
+      setPackages([5, 10, 15])
+      setCategory(0)
+    }
+    if(serviceName==1) {
+      setSubscriptionName("Amazon Prime")
+      setPackages([5, 15])
+      setCategory(3)
+    }
+    if(serviceName==2) {
+      setSubscriptionName("Spotify")
+      setPackages([11])
+      setCategory(2)
+    }
+    if(serviceName==3) {
+      setSubscriptionName("Hulu")
+      setPackages([11])
+      setCategory(0)
+    }
+    if(serviceName==4) {
+      setSubscriptionName("Disney+")
+      setPackages([11])
+      setCategory(0)
+    }
+    if(serviceName==5) {
+      setSubscriptionName("Crave")
+      setPackages([11,20])
+      setCategory(0)
+    }
+    if(serviceName==6) {
+      setSubscriptionName("Apple Tv")
+      setPackages([5])
+      setCategory(0)
+    }
+    setMonthlyCost(0)
+  }
+
+  const setChosenPackage = (choice)=>setMonthlyCost(packages[choice]);
+
 
   const addSubscription = () => {
     const subscription = {
@@ -44,13 +95,6 @@ export default function AddSubscription({navigation}) {
     navigation.pop();
   }
 
-  const [paymentDate, setPaymentDate] = useState(new Date());
-  const [monthlyCost, setMonthlyCost] = useState('');
-  const [subscriptionName, setSubscriptionName] = useState('');
-  const [category, setCategory] = useState('');
-
-  const [show, setShow] = useState(false);
-
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || paymentDate;
     setShow(Platform.OS === 'ios');
@@ -66,8 +110,29 @@ export default function AddSubscription({navigation}) {
       <ScrollView contentContainerStyle={{flexGrow: 1}}>
       <View style={{ flex: 1, justifyContent: 'center', width: '100%', backgroundColor: '#30444E'}}>
         <Text style={styles.text}>
-          Add Subscription
+          New Subscription Service
         </Text>
+        <View style={{flexDirection:"row",justifyContent: 'center',alignItems:'center'}}>
+        <RadioButton.Group onValueChange={newValue => setValue(newValue)} value={value}>
+          <View style={{flex:1}}>
+            <Text style={{color:"white"}}>Registerd Services</Text>
+            <RadioButton value={true} />
+          </View>
+          <View style={{flex:1}}>
+            <Text style={{color:"white"}}>Custom Services</Text>
+            <RadioButton value={false} />
+          </View>
+        </RadioButton.Group>
+        </View>
+        {value?
+            <ModalDropdown
+                options={['Netflix', 'Amazon Prime', 'Spotify','hulu','Disney+','Crave','Apple TV']}
+                defaultValue='Subscription name'
+                style={styles.dropdown}
+                onSelect={(text) => setDropDownPackages(text) }
+                textStyle={{color:'white'}}
+            />
+            :
         <TextInput
             style={styles.input}
             placeholder='Subscription name'
@@ -77,23 +142,38 @@ export default function AddSubscription({navigation}) {
             underlineColorAndroid="transparent"
             autoCapitalize="none"
         />
+        }
+        {value ?
+            <ModalDropdown
+                options={packages}
+                defaultValue='Monthly cost'
+                style={styles.dropdown}
+                onSelect={(text) => setChosenPackage(text)}
+                textStyle={{color:'white'}}
+            />
+            :
         <TextInput
             style={styles.input}
             placeholder='Monthly cost'
-            keyboardType = 'numeric'
+            keyboardType='numeric'
             placeholderTextColor="white"
             onChangeText={(text) => setMonthlyCost(text)}
             value={monthlyCost}
             underlineColorAndroid="transparent"
             autoCapitalize="none"
         />
+        }
+        {!value &&
+          <ModalDropdown
+          options={['Entertainment', 'Music', 'Gaming','Other']}
+          defaultValue='Category'
+          style={styles.dropdown}
+          onSelect={(text) => setCategory(text)}
+          textStyle={{color:'white'}}
+          />
+        }
 
-        <ModalDropdown
-            options={['Entertainment', 'Music', 'Gaming','Other']}
-            style={styles.dropdown}
-            onSelect={(text) => setCategory(text)}
-            textStyle={{color:'white'}}
-        />
+
 
         <View style={{flexDirection:'row'}}>
 
@@ -101,7 +181,6 @@ export default function AddSubscription({navigation}) {
               style={styles.inputDate}
               placeholder={paymentDate.toDateString()}
               placeholderTextColor="#aaaaaa"
-              // onChangeText={paymentDate.toDateString()} // paymentDate.toDateString()
               value={paymentDate.toDateString()}
               underlineColorAndroid="transparent"
               autoCapitalize="none"

@@ -28,7 +28,7 @@ export default function Menu( { navigation } ) {
         navigation.navigate('Statistics');
 
     const upcomingPayments = () =>
-        Alert.alert("Button for upcomingPayments (TODO!");
+        Alert.alert("Upcoming payments feature not available");
     return(
         <ScrollView contentContainerStyle={{height:"70%"}}>
         <View style={{ justifyContent: 'center', alignItems: 'center',marginTop:25 }}>

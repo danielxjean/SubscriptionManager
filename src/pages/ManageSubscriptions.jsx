@@ -10,9 +10,6 @@ import {db,firebase} from "../../database/firebase";
 
 
 
-function serviceIcon(props,icon){
-  return <List.Icon {...props} icon={icon}/>
-    }
 
 
 export default function ManageSubscriptions({navigation}) {
@@ -105,9 +102,9 @@ export default function ManageSubscriptions({navigation}) {
           <Provider>
             <Portal>
               <Dialog visible={visible} onDismiss={hideDialog}>
-                <Dialog.Title>Alert</Dialog.Title>
+                <Dialog.Title>Edit Subscription</Dialog.Title>
                 <Dialog.Content>
-                  <Paragraph>This is simple dialog</Paragraph>
+                  <Paragraph>Edit features not available</Paragraph>
                 </Dialog.Content>
                 <Dialog.Actions>
                   <Button onPress={hideDialog}>Done</Button>
