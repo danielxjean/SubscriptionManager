@@ -22,7 +22,7 @@ export default function AddSubscription({navigation}) {
     const db = firebase.firestore().collection('users').doc(currentUser.uid).get()
     .then(snap => {
       if (!snap.exists) {
-        console.log('No such document!');``
+        console.log('No such document!');
         return;
       }
 
@@ -35,7 +35,6 @@ export default function AddSubscription({navigation}) {
         services.services = [...s]
 
         firebase.firestore().collection('users').doc(currentUser.uid).set(services)
-        console.log(services)
       }
     })
     .catch((error) => {

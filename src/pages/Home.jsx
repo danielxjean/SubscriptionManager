@@ -47,7 +47,6 @@ export default function Home({navigation}) {
         //Calcutate sum
         let currSum=0;
         const UserInfo=doc.data().services
-        console.log(UserInfo);
         for(var i=0;i<UserInfo.length;i++)
           currSum+=UserInfo[i].packages
         setSum(currSum)
@@ -66,7 +65,6 @@ export default function Home({navigation}) {
             data[3].cost+=Service[i].packages
         }
         setStats(data)
-        console.log(1)
       } else {
         // doc.data() will be undefined in this case
         console.log("No such document!");
@@ -103,7 +101,7 @@ export default function Home({navigation}) {
                 </Card>
               <Statistics stats={stats}/>
               <Pressable onPress={_fetchStats}>
-                <Text style={styles.refreshText}>Refresh</Text>
+                <Text style={styles.refreshText}>Press to refresh</Text>
               </Pressable>
             </View>
           </ScrollView>
