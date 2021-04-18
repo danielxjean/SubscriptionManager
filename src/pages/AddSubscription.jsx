@@ -1,9 +1,8 @@
 import React, { useState } from "react";
-import { ScrollView,View,SafeAreaView, Text, TextInput,StyleSheet, TouchableOpacity, Alert } from "react-native";
+import {ScrollView, View, Text, TextInput,StyleSheet, TouchableOpacity, Alert } from "react-native";
 import ModalDropdown from 'react-native-modal-dropdown';
 import { Button } from 'react-native-elements';
 import DateTimePicker  from  '@react-native-community/datetimepicker';
-import { LinearGradient } from 'expo-linear-gradient';
 import { firebase } from '../../database/firebase';
 
 export default function AddSubscription() {
@@ -32,29 +31,29 @@ export default function AddSubscription() {
       if (typeof s === 'undefined') {
         firebase.firestore().collection('users').doc(currentUser.uid).update({services: [subscription]})
       } else {
-      s.push(subscription)
-      services.services = [...s]
+        s.push(subscription)
+        services.services = [...s]
 
-      firebase.firestore().collection('users').doc(currentUser.uid).set(services)
-      console.log(services)
+        firebase.firestore().collection('users').doc(currentUser.uid).set(services)
+        console.log(services)
       }
     })
     .catch((error) => {
-        console.log("Error getting document:", error);
+      console.log("Error getting document:", error);
     });
 
-}
+  }
 
   const [paymentDate, setPaymentDate] = useState(new Date());
   const [monthlyCost, setMonthlyCost] = useState('');
   const [subscriptionName, setSubscriptionName] = useState('');
-
+  const [category, setCategory] = useState('');
 
   const [show, setShow] = useState(false);
 
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || paymentDate;
-    setShow(Platform.OS === 'android');
+    setShow(Platform.OS === 'ios');
     setPaymentDate(currentDate);
   };
 
@@ -64,8 +63,8 @@ export default function AddSubscription() {
 
 
   return(
-    <SafeAreaView  style={{ backgroundColor: '#2A3C44', height: '100%'}}>
-      <ScrollView style={{ paddingTop: 225, backgroundColor: '#2A3C44', height: '100%'}}>
+      <ScrollView contentContainerStyle={{flexGrow: 1}}>
+      <View style={{ flex: 1, justifyContent: 'center', width: '100%', backgroundColor: '#30444E'}}>
         <Text style={styles.text}>
           Add Subscription
         </Text>
@@ -89,56 +88,51 @@ export default function AddSubscription() {
             autoCapitalize="none"
         />
 
-          <ModalDropdown
-              options={['Entertainment', 'Music', 'Gaming','Other']}
-              style={styles.dropdown}
-              onSelect={(text) => setCategory(text)}
-              textStyle={{color:'white'}}
+        <ModalDropdown
+            options={['Entertainment', 'Music', 'Gaming','Other']}
+            style={styles.dropdown}
+            onSelect={(text) => setCategory(text)}
+            textStyle={{color:'white'}}
+        />
+
+        <View style={{flexDirection:'row'}}>
+
+          <TextInput
+              style={styles.inputDate}
+              placeholder={paymentDate.toDateString()}
+              placeholderTextColor="#aaaaaa"
+              // onChangeText={paymentDate.toDateString()} // paymentDate.toDateString()
+              value={paymentDate.toDateString()}
+              underlineColorAndroid="transparent"
+              autoCapitalize="none"
+              onPress = {showDatepicker}
           />
-          <View style={{flexDirection:'row'}}>
 
-              <TextInput
-                  style={styles.inputDate}
-                  placeholder={paymentDate.toDateString()}
-                  placeholderTextColor="#aaaaaa"
-                  // onChangeText={paymentDate.toDateString()} // paymentDate.toDateString()
-                  value={paymentDate.toDateString()}
-                  underlineColorAndroid="transparent"
-                  autoCapitalize="none"
-                  onPress = {showDatepicker}
-              />
-
-              <Button 
-                  onPress={showDatepicker} 
-                  title="Date" 
-                  buttonStyle={styles.buttonDate}
-                  titleStyle={{color:'white'}}
-              />
-
-          </View>
-          
-          {show && (<DateTimePicker
-            testID="dateTimePicker"
-            value={paymentDate}
-            mode='date'
-            display="calendar"
-            onChange={onChange}
-            placeholder= "Category"
+          <Button
+              onPress={showDatepicker}
+              title="Date"
+              buttonStyle={styles.buttonDate}
+              titleStyle={{color:'white'}}
           />
-          )}
 
-          <TouchableOpacity style={styles.button} onPress={addSubscription}>
-            <LinearGradient
-                style={{flex:1}}
-                colors={['#9FC6FF', '#6993FF', '#516AC2']}
-                height={'100%'}>
-              <Text style={styles.buttonText}>Add</Text>
-            </LinearGradient>
-          </TouchableOpacity>
+        </View>
+
+        {show && (<DateTimePicker
+                testID="dateTimePicker"
+                value={paymentDate}
+                mode='date'
+                display="calendar"
+                onChange={onChange}
+                placeholder= "Category"
+            />
+        )}
+
+        <TouchableOpacity style={styles.button} onPress={addSubscription}>
+          <Text style={styles.buttonText}>Add</Text>
+        </TouchableOpacity>
+      </View>
       </ScrollView>
-    </SafeAreaView>
-
-    );
+  );
 }
 
 
@@ -165,20 +159,21 @@ const styles = StyleSheet.create({
     paddingTop: 12,
     textAlign: "center",
     color: "white",
-    fontSize: 18,
-    fontWeight: 'bold'
+    fontSize: 15
   },
   button: {
-    height: 50,
+    height: 48,
     overflow: 'hidden',
-    justifyContent: 'center',
+    backgroundColor: '#40DF9F',
     borderWidth: 1,
     borderRadius: 15,
     marginTop: 10,
-    marginBottom: 10,
+    marginBottom: 30,
     marginLeft: 30,
-    marginRight: 30
- },
+    marginRight: 30,
+    paddingLeft: 16,
+    borderColor: 'black'
+  },
   buttonDate: {
     height: 48,
     overflow: 'hidden',

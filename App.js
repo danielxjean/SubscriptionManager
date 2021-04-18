@@ -153,7 +153,7 @@ function MainTabNavigator() {
         shifting={true}
         sceneAnimationEnabled={true}
         activeColor="white"
-        barStyle={{ backgroundColor: "#30444E", borderTopColor: '#30444E', borderTopWidth: 10, borderTopLeftRadius: 15, borderTopRightRadius: 15}}
+        barStyle={{ backgroundColor: "#30444E", borderTopColor: '#30444E', borderTopWidth: 10}}
       >
         <Tab.Screen 
             name='Menu' 

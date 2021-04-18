@@ -10,6 +10,7 @@ import TabBar from '../components/TabBar.jsx';
 export default function Statistics({navigation}) {
   const [Services, setServices] = useState();
   const [stats, setStats] = useState();
+  const currentUser = firebase.auth().currentUser;
   let data = [
     { name: 'Entertainment', cost: 0, color: '#FFC542', legendFontColor: '#7F7F7F', legendFontSize: 11 },
     { name: 'Music', cost: 0, color: '#FF575F', legendFontColor: '#7F7F7F', legendFontSize: 11 },
@@ -26,20 +27,27 @@ export default function Statistics({navigation}) {
 
   const _fetchServics = async () =>{
 
-    var docRef = db.collection("users").doc("test1");
-
+    var docRef = db.collection("users").doc(currentUser.uid);
+    data[0].cost=0
+    data[1].cost=0
+    data[2].cost=0
+    data[3].cost=0
     docRef.get().then((doc) => {
       if (doc.exists) {
         let Service = doc.data().services
         setServices(Service)
-        console.log(data)
         for (var i = 0;i<Service.length;i++)
         {
-          if(Service[i].Category=="Entertainment")
+          if(Service[i].Category==0)
             data[0].cost+=Service[i].packages
+          if(Service[i].Category==1)
+            data[1].cost+=Service[i].packages
+          if(Service[i].Category==2)
+            data[2].cost+=Service[i].packages
+          if(Service[i].Category==3)
+            data[3].cost+=Service[i].packages
+          setStats(data)
         }
-      console.log(data[0].cost)
-        setStats(data)
       } else {
         // doc.data() will be undefined in this case
         console.log("No such document!");

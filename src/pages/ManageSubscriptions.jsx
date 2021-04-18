@@ -3,7 +3,7 @@ import {ScrollView, View, Text,StyleSheet, TouchableOpacity, Alert } from "react
 import {Divider,IconButton, List, Searchbar, Card,Button,Title, Paragraph, Dialog, Portal,Provider } from 'react-native-paper';
 import { LinearGradient } from 'expo-linear-gradient';
 import EntertainmentIcon from '../styles/icon/EntertainmentIcon.png'
-import {db} from "../../database/firebase";
+import {db,firebase} from "../../database/firebase";
 
 
 
@@ -16,6 +16,7 @@ export default function ManageSubscriptions({navigation}) {
   const [searchQuery, setSearchQuery] = React.useState('');
   const [user,setUser]= React.useState();
   const [visible, setVisible] = React.useState(false);
+  const currentUser = firebase.auth().currentUser;
 
   const showDialog = () => setVisible(true);
 
@@ -25,7 +26,7 @@ export default function ManageSubscriptions({navigation}) {
   const addSubscription = () =>navigation.navigate('AddSubscription');
 
   useEffect(()=>{
-    var docRef = db.collection("users").doc("test1");
+    var docRef = db.collection("users").doc(currentUser.uid);
 
     docRef.get().then((doc) => {
       if (doc.exists) {
@@ -55,7 +56,7 @@ export default function ManageSubscriptions({navigation}) {
               onChangeText={onChangeSearch}
               value={searchQuery}/>
           </View>
-          {user && user.services.map(user =>(
+          {user &&user.services && user.services.map(user =>(
             <View key={user.username}>
             <Card.Title
             title={user.Service}

@@ -22,7 +22,9 @@ export default function Home({navigation}) {
   const [entityText, setEntityText] = useState('');
   const [Sum, setSum] = useState(0);
   const backgroundColor='#2A3C44';
- useEffect(()=>{
+  const currentUser = firebase.auth().currentUser;
+
+  useEffect(()=>{
    if (Platform.OS == 'android') {
      StatusBar.setBarStyle('light-content', true)
      StatusBar.setBackgroundColor("#2A3C44")
@@ -32,7 +34,7 @@ export default function Home({navigation}) {
 
   const _fetchSum = async () =>{
 
-    var docRef = db.collection("users").doc("test1");
+    var docRef = db.collection("users").doc(currentUser.uid);
 
     docRef.get().then((doc) => {
       if (doc.exists) {
@@ -67,7 +69,7 @@ export default function Home({navigation}) {
     firebase.auth().signOut();
   }
         return(
-          <ScrollView>
+          <ScrollView contentContainerStyle={{flexGrow: 1}}>
             <View style = {{ backgroundColor: backgroundColor, height: '100%'}}>
 
                 <Card style={styles.monthlyCard}>
@@ -77,39 +79,6 @@ export default function Home({navigation}) {
                   </Card.Content>
                 </Card>
               <Statistics/>
-              <Card style={styles.buttonCard}>
-                <Card.Content>
-                <TouchableOpacity style={styles.button} onPress={addSubscription}>
-                  <LinearGradient
-                      style={{flex:1}}
-                    colors={['#9FC6FF', '#6993FF', '#516AC2']}
-                    height={'100%'}>
-                    <Title style={styles.buttonText}>Add Subscription</Title>
-                </LinearGradient>
-                </TouchableOpacity>
-
-                <TouchableOpacity style={styles.button} onPress={manageSubscription}>
-                  <LinearGradient
-                      style={{flex:1}}
-                      colors={['#9FC6FF', '#6993FF', '#516AC2']}
-                      height={48}>
-                    <Title style={styles.buttonText}>Manage Subscriptions</Title>
-                  </LinearGradient>
-                </TouchableOpacity>
-
-                <TouchableOpacity style={styles.button} onPress={upcomingPayments}>
-                  <LinearGradient
-                      style={{flex:1}}
-                      colors={['#9FC6FF', '#6993FF', '#516AC2']}
-                      height={'100%'}>
-                    <Title style={styles.buttonText}>Upcoming Payments</Title>
-                  </LinearGradient>
-                </TouchableOpacity>
-
-                </Card.Content>
-
-              </Card>
-
             </View>
           </ScrollView>
           
