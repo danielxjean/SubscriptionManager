@@ -69,7 +69,7 @@ export default function ManageSubscriptions() {
   return(
         <View style={styles.container}>
           <View style={{marginTop:15}}>
-            <Text style={styles.text}>Managesss Subscriptions Page</Text>
+            <Text style={styles.text}>Manage Subscriptions Page</Text>
           <Searchbar
               style={styles.searchBar}
               inputContainerStyle={styles.searchText}
