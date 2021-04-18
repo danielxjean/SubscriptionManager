@@ -1,8 +1,11 @@
 import React, {useEffect} from "react";
 import {ScrollView, View, Text,StyleSheet, TouchableOpacity, Alert } from "react-native";
-import {Divider,IconButton, List, Searchbar, Card,Button,Title, Paragraph, Dialog, Portal,Provider } from 'react-native-paper';
+import {Avatar,Divider,IconButton, List, Searchbar, Card,Button,Title, Paragraph, Dialog, Portal,Provider } from 'react-native-paper';
 import { LinearGradient } from 'expo-linear-gradient';
 import EntertainmentIcon from '../styles/icon/EntertainmentIcon.png'
+import MusicIcon from '../styles/icon/MusicIcon.png'
+import GamingIcon from '../styles/icon/GamingIcon.png'
+import OtherIcon from '../styles/icon/OtherIcon.png'
 import {db,firebase} from "../../database/firebase";
 
 
@@ -30,8 +33,29 @@ export default function ManageSubscriptions({navigation}) {
 
     docRef.get().then((doc) => {
       if (doc.exists) {
-        setUser(doc.data())
-        console.log("Document data:", doc.data());
+        let temp=doc.data();
+        for(var i=0;i<temp.services.length;i++)
+        {
+          if(temp.services[i].Category==0) {
+            temp.services[i].Category = "Entertainment"
+            temp.services[i].icon=EntertainmentIcon
+          }
+          if(temp.services[i].Category==1) {
+            temp.services[i].Category = "Music"
+            temp.services[i].icon = MusicIcon
+          }
+          if(temp.services[i].Category==2) {
+            temp.services[i].Category = "Gaming"
+            temp.services[i].icon = GamingIcon
+          }
+          if(temp.services[i].Category==3) {
+            temp.services[i].Category = "Other"
+            temp.services[i].icon = OtherIcon
+          }
+        }
+        setUser(temp)
+        console.log(temp)
+        // console.log("Document data:", doc.data());
       } else {
         // doc.data() will be undefined in this case
         console.log("No such document!");
@@ -57,12 +81,13 @@ export default function ManageSubscriptions({navigation}) {
           {/*    value={searchQuery}/>*/}
           </View>
           {user &&user.services && user.services.map(user =>(
-            <View key={user.username}>
+            <View key={user.usernam}>
             <Card.Title
             title={user.Service}
             titleStyle={{color:"white"}}
             subtitleStyle={{color:"white"}}
             subtitle={user.Category}
+            left={(props) => <Avatar.Image {...props} source={user.icon} />}
             right={props => <IconButton {...props} icon="square-edit-outline" color={"white"} onPress={showDialog}/>}
             />
             <Divider style={styles.divider}/>

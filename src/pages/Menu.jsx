@@ -31,7 +31,7 @@ export default function Menu( { navigation } ) {
         Alert.alert("Button for upcomingPayments (TODO!");
     return(
         <ScrollView contentContainerStyle={{height:"70%"}}>
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center',marginTop:25 }}>
+        <View style={{ justifyContent: 'center', alignItems: 'center',marginTop:25 }}>
             <Card style={styles.buttonCard}>
                 <Card.Content>
                     <TouchableOpacity style={styles.button} onPress={addSubscription}>
@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
     },
     text: {
         color: "white",
-        fontSize: 42,
+        fontSize: 30,
         fontWeight: "bold",
         textAlign: "center",
         backgroundColor: "#000000a0"
@@ -94,8 +94,9 @@ const styles = StyleSheet.create({
     buttonText: {
         textAlign: "center",
         textAlignVertical: "center",
-        color: "white"
-
+        color: "white",
+        marginLeft:10,
+        marginRight:10
     },
     button: {
         height: 50,
@@ -105,8 +106,8 @@ const styles = StyleSheet.create({
         borderRadius: 15,
         marginTop: 10,
         marginBottom: 10,
-        marginLeft: 30,
-        marginRight: 30
+        marginLeft: 20,
+        marginRight: 20
     },
     input: {
         height: 48,
