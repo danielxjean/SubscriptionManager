@@ -11,3 +11,8 @@ web-build/
 
 # macOS
 .DS_Store
+/.idea/misc.xml
+/.idea/modules.xml
+/package-lock.json
+/.idea/SubscriptionManager.iml
+/.idea/vcs.xml
