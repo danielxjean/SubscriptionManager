@@ -5,57 +5,21 @@ import { firebase,db } from '../../database/firebase';
 import { LineChart, BarChart, PieChart, ProgressChart, ContributionGraph, StackedBarChart} from 'react-native-chart-kit';
 import TabBar from '../components/TabBar.jsx';
 
+const wait = (timeout) => {
+  return new Promise(resolve => setTimeout(resolve, timeout));
+}
 
+export default function Statistics({navigation,stats}) {
+  const [refreshing, setRefreshing] = React.useState(false);
 
-export default function Statistics({navigation}) {
-  const [Services, setServices] = useState();
-  const [stats, setStats] = useState();
   const currentUser = firebase.auth().currentUser;
-  let data = [
-    { name: 'Entertainment', cost: 0, color: '#FFC542', legendFontColor: '#7F7F7F', legendFontSize: 11 },
-    { name: 'Music', cost: 0, color: '#FF575F', legendFontColor: '#7F7F7F', legendFontSize: 11 },
-    { name: 'Gaming', cost: 0, color: '#3DD598', legendFontColor: '#7F7F7F', legendFontSize: 11 },
-    { name: 'Other', cost: 0, color: '#6691FF', legendFontColor: '#7F7F7F', legendFontSize: 11 },
-  ]
   useEffect(()=>{
     if (Platform.OS == 'android') {
       StatusBar.setBarStyle('light-content', true)
       StatusBar.setBackgroundColor("#2A3C44")
     }
-    _fetchServics();
   }, [])
 
-  const _fetchServics = async () =>{
-
-    var docRef = db.collection("users").doc(currentUser.uid);
-    data[0].cost=0
-    data[1].cost=0
-    data[2].cost=0
-    data[3].cost=0
-    docRef.get().then((doc) => {
-      if (doc.exists) {
-        let Service = doc.data().services
-        setServices(Service)
-        for (var i = 0;i<Service.length;i++)
-        {
-          if(Service[i].Category==0)
-            data[0].cost+=Service[i].packages
-          if(Service[i].Category==1)
-            data[1].cost+=Service[i].packages
-          if(Service[i].Category==2)
-            data[2].cost+=Service[i].packages
-          if(Service[i].Category==3)
-            data[3].cost+=Service[i].packages
-          setStats(data)
-        }
-      } else {
-        // doc.data() will be undefined in this case
-        console.log("No such document!");
-      }
-    }).catch((error) => {
-      console.log("Error getting document:", error);
-    });
-  }
 
     return (
                  <Card style={styles.monthlyCard}>

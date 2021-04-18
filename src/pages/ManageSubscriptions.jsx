@@ -49,12 +49,12 @@ export default function ManageSubscriptions({navigation}) {
         <ScrollView style={styles.container}>
           <View style={{marginTop:15}}>
             <Text style={styles.text}>Manage Subscriptions Page</Text>
-          <Searchbar
-              style={styles.searchBar}
-              inputContainerStyle={styles.searchText}
-              placeholder="Search"
-              onChangeText={onChangeSearch}
-              value={searchQuery}/>
+          {/*<Searchbar*/}
+          {/*    style={styles.searchBar}*/}
+          {/*    inputContainerStyle={styles.searchText}*/}
+          {/*    placeholder="Search"*/}
+          {/*    onChangeText={onChangeSearch}*/}
+          {/*    value={searchQuery}/>*/}
           </View>
           {user &&user.services && user.services.map(user =>(
             <View key={user.username}>

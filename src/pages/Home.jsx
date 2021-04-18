@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import {
+  Pressable,
   FlatList,
   Keyboard,
   Text,
@@ -17,10 +18,11 @@ import {Card, Title, Paragraph, Headline} from 'react-native-paper';
 import { LinearGradient } from 'expo-linear-gradient';
 import Statistics from "./Statistics";
 
-
 export default function Home({navigation}) {
   const [entityText, setEntityText] = useState('');
   const [Sum, setSum] = useState(0);
+  const [stats, setStats] = useState();
+  const [Services, setServices] = useState();
   const backgroundColor='#2A3C44';
   const currentUser = firebase.auth().currentUser;
 
@@ -29,21 +31,42 @@ export default function Home({navigation}) {
      StatusBar.setBarStyle('light-content', true)
      StatusBar.setBackgroundColor("#2A3C44")
    }
-   _fetchSum();
-  }, [Sum])
+   _fetchStats()
+  },[])
 
-  const _fetchSum = async () =>{
-
+  const _fetchStats = async () =>{
+    let data = [
+      { name: 'Entertainment', cost: 0, color: '#FFC542', legendFontColor: '#7F7F7F', legendFontSize: 11 },
+      { name: 'Music', cost: 0, color: '#FF575F', legendFontColor: '#7F7F7F', legendFontSize: 11 },
+      { name: 'Gaming', cost: 0, color: '#3DD598', legendFontColor: '#7F7F7F', legendFontSize: 11 },
+      { name: 'Other', cost: 0, color: '#6691FF', legendFontColor: '#7F7F7F', legendFontSize: 11 },
+    ]
     var docRef = db.collection("users").doc(currentUser.uid);
-
     docRef.get().then((doc) => {
       if (doc.exists) {
+        //Calcutate sum
         let currSum=0;
         const UserInfo=doc.data().services
         console.log(UserInfo);
         for(var i=0;i<UserInfo.length;i++)
           currSum+=UserInfo[i].packages
         setSum(currSum)
+        //Calculate Category patrition
+        let Service = doc.data().services
+        setServices(Service)
+        for (var i = 0;i<Service.length;i++)
+        {
+          if(Service[i].Category==0)
+            data[0].cost+=Service[i].packages
+          if(Service[i].Category==1)
+            data[1].cost+=Service[i].packages
+          if(Service[i].Category==2)
+            data[2].cost+=Service[i].packages
+          if(Service[i].Category==3)
+            data[3].cost+=Service[i].packages
+        }
+        setStats(data)
+        console.log(1)
       } else {
         // doc.data() will be undefined in this case
         console.log("No such document!");
@@ -69,7 +92,7 @@ export default function Home({navigation}) {
     firebase.auth().signOut();
   }
         return(
-          <ScrollView contentContainerStyle={{flexGrow: 1}}>
+          <ScrollView contentContainerStyle={{flexGrow: 1}} >
             <View style = {{ backgroundColor: backgroundColor, height: '100%'}}>
 
                 <Card style={styles.monthlyCard}>
@@ -78,7 +101,10 @@ export default function Home({navigation}) {
                     <Headline style={{textAlign:"center"}}>{Sum}$</Headline>
                   </Card.Content>
                 </Card>
-              <Statistics/>
+              <Statistics stats={stats}/>
+              <Pressable onPress={_fetchStats}>
+                <Text style={styles.refreshText}>Refresh</Text>
+              </Pressable>
             </View>
           </ScrollView>
           
@@ -101,6 +127,12 @@ const styles = StyleSheet.create({
     flex: 1,
     resizeMode: "cover",
     justifyContent: "center"
+  },
+  refreshText:{
+    color: "white",
+    fontSize: 20,
+    fontWeight: "bold",
+    textAlign: "center",
   },
   text: {
     color: "white",

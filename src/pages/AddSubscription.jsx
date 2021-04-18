@@ -3,10 +3,10 @@ import {ScrollView, View, Text, TextInput,StyleSheet, TouchableOpacity, Alert } 
 import ModalDropdown from 'react-native-modal-dropdown';
 import { Button } from 'react-native-elements';
 import DateTimePicker  from  '@react-native-community/datetimepicker';
+import { LinearGradient } from 'expo-linear-gradient';
 import { firebase } from '../../database/firebase';
 
-export default function AddSubscription() {
-
+export default function AddSubscription({navigation}) {
   const currentUser = firebase.auth().currentUser;
 
   const addSubscription = () => {
@@ -42,6 +42,7 @@ export default function AddSubscription() {
       console.log("Error getting document:", error);
     });
 
+    navigation.pop();
   }
 
   const [paymentDate, setPaymentDate] = useState(new Date());
@@ -108,16 +109,22 @@ export default function AddSubscription() {
               onPress = {showDatepicker}
           />
 
-          <Button
+          <TouchableOpacity
               onPress={showDatepicker}
-              title="Date"
-              buttonStyle={styles.buttonDate}
-              titleStyle={{color:'white'}}
-          />
+              style={styles.buttonDate}
+          >
+            <LinearGradient
+                style={{flex:1}}
+                colors={['#9FC6FF', '#6993FF', '#516AC2']}
+                height={'100%'}>
+            <Text style={styles.buttonText}>Date</Text>
+            </LinearGradient>
+          </TouchableOpacity>
 
         </View>
 
-        {show && (<DateTimePicker
+        {show && (
+            <DateTimePicker
                 testID="dateTimePicker"
                 value={paymentDate}
                 mode='date'
@@ -128,7 +135,12 @@ export default function AddSubscription() {
         )}
 
         <TouchableOpacity style={styles.button} onPress={addSubscription}>
+          <LinearGradient
+              style={{flex:1}}
+              colors={['#9FC6FF', '#6993FF', '#516AC2']}
+              height={'100%'}>
           <Text style={styles.buttonText}>Add</Text>
+          </LinearGradient>
         </TouchableOpacity>
       </View>
       </ScrollView>
@@ -162,23 +174,20 @@ const styles = StyleSheet.create({
     fontSize: 15
   },
   button: {
-    height: 48,
+    height: 50,
     overflow: 'hidden',
-    backgroundColor: '#40DF9F',
+    justifyContent: 'center',
     borderWidth: 1,
     borderRadius: 15,
     marginTop: 10,
-    marginBottom: 30,
+    marginBottom: 10,
     marginLeft: 30,
-    marginRight: 30,
-    paddingLeft: 16,
-    borderColor: 'black'
+    marginRight: 30
   },
   buttonDate: {
     height: 48,
     overflow: 'hidden',
     backgroundColor: '#1A282F',
-    opacity: 0.5,
     borderWidth: 1,
     borderColor: '#1A282F',
     borderRadius: 15,
@@ -186,8 +195,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     marginLeft: 30,
     marginRight: 30,
-    paddingLeft: 16,
-    width: '40%',
+    width: '25%',
     borderColor: 'black'
   },
   dropdown: {
