@@ -5,37 +5,34 @@ import { firebase } from '../../database/firebase';
 import {Card, Title, Paragraph, Headline} from 'react-native-paper';
 import { LinearGradient } from 'expo-linear-gradient';
 
-const addSubscription = () => 
-Alert.alert("Button for adding Subscriptions (TODO!");
 
-const manageSubscription = () =>
-Alert.alert("Button for managing Subscriptions (TODO!");
-
-const statistics = () =>
-Alert.alert("Button for statistics (TODO!");
-
-const upcomingPayments = () =>
-Alert.alert("Button for upcomingPayments (TODO!");
-
-const logout = () => {
-  Alert.alert('logging out');
-  firebase.auth().signOut();
-}
-
-
-
-export default function Home(effect, deps) {
+export default function Home({navigation}) {
+  const [entityText, setEntityText] = useState('');
   const backgroundColor='#FFC542';
  useEffect(()=>{
    if (Platform.OS == 'android') {
      StatusBar.setBarStyle('light-content', true)
-     StatusBar.setBackgroundColor(backgroundColor)
+     StatusBar.setBackgroundColor("#2A3C44")
    }
 
   }, [])
 
-  const [entityText, setEntityText] = useState('');
+  const addSubscription = () =>
+      navigation.navigate('AddSubscription');
 
+  const manageSubscription = () =>
+      Alert.alert("Button for managing Subscriptions (TODO!");
+
+  const statistics = () =>
+      navigation.navigate('Statistics');
+
+  const upcomingPayments = () =>
+      Alert.alert("Button for upcomingPayments (TODO!");
+
+  const logout = () => {
+    Alert.alert('logging out');
+    firebase.auth().signOut();
+  }
         return(
           <View>
             <View style = {{ backgroundColor: backgroundColor, height: '100%'}}>

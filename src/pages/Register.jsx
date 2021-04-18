@@ -22,7 +22,6 @@ export default function Register({ navigation }) {
       setName({ ...name, error: nameError })
       setEmail({ ...email, error: emailError })
       setPassword({ ...password, error: passwordError })
-      return
     }
 
     firebase
@@ -60,7 +59,7 @@ export default function Register({ navigation }) {
 
   return (
     // <ImageBackground>
-    <View style={{backgroundColor: '#40DF9F', height: '100%'}}>
+    <View style={{height: '100%'}}>
       <WavyHeader customStyles={styles.svgCurve} />
           <View style={styles.headerContainer}>
             <Text style={styles.headerText}>Subscription Manager</Text>

@@ -6,10 +6,10 @@ import AddSubscription from '../pages/AddSubscription';
 import { useNavigation } from '@react-navigation/native';
 
 
-const goHome = () =>
-Alert.alert("Go Home Button");
 
 export default function TabBar({ navigation }){
+  const goHome = () =>
+      navigation.navigate('Home');
     return(
         <View style={{flex: 1}}>
             <View style={{position: 'absolute', left: 0, right: 0, bottom: 0}}>

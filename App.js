@@ -9,19 +9,17 @@ import LandingPage from './src/pages/LandingPage.jsx';
 import Statistics from './src/pages/Statistics';
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from '@react-navigation/native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import {decode, encode} from 'base-64';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
-import { firebase } from './database/firebase';
-import { View, Text } from 'react-native';
+import { db,firebase } from './database/firebase';
+import { View,ScrollView, Button } from 'react-native';
+import {Text, Title} from "react-native-paper";
 import { MaterialCommunityIcons } from 'react-native-vector-icons';
 
 if (!global.btoa) {  global.btoa = encode }
 if (!global.atob) { global.atob = decode }
-import { NavigationContainer } from '@react-navigation/native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import {Text, Title} from "react-native-paper";
-import { View, ScrollView, Button } from 'react-native';
-import { createDrawerNavigator } from '@react-navigation/drawer';
+
 
 const Stack = createStackNavigator();
 const Tab = createMaterialBottomTabNavigator()
@@ -67,7 +65,7 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator>
       {/* { user ? initialRouteName={}} */}
-        { userLogged == false ? (
+        { user ? (
             <>
             <Stack.Screen
               name="Home"
@@ -77,6 +75,24 @@ export default function App() {
                 {headerLeft: null},
                 {headerShown: false}
               }
+              />
+              <Stack.Screen
+                  name="AddSubscription"
+                  component={AddSubscription}
+                  options={
+                    { title: 'AddSubscription' },
+                  {headerLeft: null},
+                  {headerShown: false}
+                  }
+              />
+              <Stack.Screen
+                  name="Statistics"
+                  component={Statistics}
+                  options={
+                    { title: 'Statistics' },
+                  {headerLeft: null},
+                  {headerShown: false}
+                  }
               />
             </>
         ) : (
@@ -144,10 +160,10 @@ function MainTabNavigator() {
               }}
         />
         <Tab.Screen
-            name='AddSubscription'
-            component={AddSubscription}
+            name='Statistics'
+            component={Statistics}
             options={{
-                tabBarLabel: 'Settings',
+                tabBarLabel: 'Statistic',
                 tabBarIcon: ({ color }) => (
                   <MaterialCommunityIcons name="account" color={color} size={26} />
                 ),

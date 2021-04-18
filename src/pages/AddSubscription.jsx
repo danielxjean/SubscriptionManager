@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { View, Text, TextInput,StyleSheet, TouchableOpacity, Alert } from "react-native";
+import {SafeAreaView, ScrollView,View, Text, TextInput,StyleSheet, TouchableOpacity, Alert } from "react-native";
 import { Dropdown } from 'react-native-material-dropdown-v2';
 import { Header, Button } from 'react-native-elements';
 import DateTimePicker  from  '@react-native-community/datetimepicker';
-import firebase from '../../database/firebase';
+import db from '../../database/firebase';
 
 export default function AddSubscription() {
   let category = [
@@ -18,10 +18,17 @@ export default function AddSubscription() {
     },
   ];
 
-  const addSubscription = () => 
-  Alert.alert("Button for adding Subscriptions (TODO!");
-
-  // firebase.firestore()
+  const addSubscription = () =>{
+    // db.collection("users").doc("test1").set({username:"test1",password:"test1",
+//   services:[
+//     {Service:"Netflix",packages:10,Category:"Entertainment"},
+//     {Service:"Prime Video",packages:5,Category:"Entertainment"}]})
+// .then(() => {
+//   console.log("Document successfully written!");
+// })
+// .catch((error) => {
+//   console.error("Error writing document: ", error);
+  }
 
   const [paymentDate, setPaymentDate] = useState(new Date());
   const [monthlyCost, setMonthlyCost] = useState('');
@@ -42,8 +49,8 @@ export default function AddSubscription() {
 
 
   return(
-    <View>
-      <View style={{ paddingTop: 225, backgroundColor: '#2A3C44', height: '100%'}}>
+    <SafeAreaView  style={{ backgroundColor: '#2A3C44', height: '100%'}}>
+      <ScrollView style={{ paddingTop: 225, backgroundColor: '#2A3C44', height: '100%'}}>
 
         <TextInput
             style={styles.input}
@@ -64,7 +71,7 @@ export default function AddSubscription() {
             underlineColorAndroid="transparent"
             autoCapitalize="none"
         />
-          <Dropdown 
+          <Dropdown
             placeholder = "Category"
             data = {category}
             style = {styles.dropdown}
@@ -105,8 +112,8 @@ export default function AddSubscription() {
           <TouchableOpacity style={styles.button} onPress={addSubscription}>
               <Text style={styles.buttonText}>Add</Text>
           </TouchableOpacity>
-      </View>
-    // </View>
+      </ScrollView>
+    </SafeAreaView>
 
     );
 }
@@ -148,7 +155,7 @@ const styles = StyleSheet.create({
     marginBottom: 30,
     marginLeft: 30,
     marginRight: 30,
-    paddingLeft: 16     
+    paddingLeft: 16
  },
  buttonDate: {
   height: 48,
@@ -175,7 +182,7 @@ const styles = StyleSheet.create({
   marginBottom: 10,
   marginLeft: 30,
   marginRight: 30,
-  paddingLeft: 16  
+  paddingLeft: 16
  },
  input: {
   height: 48,

@@ -1,5 +1,5 @@
-import React from 'react';
-import { SafeAreaView, Text, View, StyleSheet, Dimensions, ScrollView } from 'react-native';
+import React, { useEffect } from 'react'
+import { SafeAreaView, Text, View, StyleSheet, Dimensions, ScrollView ,StatusBar} from 'react-native';
 import {Card, Title, Headline} from 'react-native-paper';
 import { LineChart, BarChart, PieChart, ProgressChart, ContributionGraph, StackedBarChart} from 'react-native-chart-kit';
 import TabBar from '../components/TabBar.jsx';
@@ -12,7 +12,15 @@ const data = [
   ]
 
 
-export default function Statistics() {
+export default function Statistics({navigation}) {
+
+  useEffect(()=>{
+    if (Platform.OS == 'android') {
+      StatusBar.setBarStyle('light-content', true)
+      StatusBar.setBackgroundColor("#2A3C44")
+    }
+
+  }, [])
     return (
 
         <View>
@@ -42,9 +50,7 @@ export default function Statistics() {
                  </Card>
             </View>
 
-            <View>
-                <TabBar style={styles.footer}/>
-            </View>
+
 
         </View>
 
