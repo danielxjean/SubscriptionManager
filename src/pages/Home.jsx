@@ -54,7 +54,7 @@ export default function Home({navigation}) {
       navigation.navigate('AddSubscription');
 
   const manageSubscription = () =>
-      Alert.alert("Button for managing Subscriptions (TODO!");
+      navigation.navigate('ManageSubscriptions');
 
   const statistics = () =>
       navigation.navigate('Statistics');

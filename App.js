@@ -7,6 +7,7 @@ import Home from './src/pages/Home.jsx';
 import AddSubscription from './src/pages/AddSubscription';
 import LandingPage from './src/pages/LandingPage.jsx';
 import Statistics from './src/pages/Statistics';
+import ManageSubscriptions from './src/pages/ManageSubscriptions';
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -81,6 +82,15 @@ export default function App() {
                   component={AddSubscription}
                   options={
                     { title: 'AddSubscription' },
+                  {headerLeft: null},
+                  {headerShown: false}
+                  }
+              />
+              <Stack.Screen
+                  name="ManageSubscriptions"
+                  component={ManageSubscriptions}
+                  options={
+                    { title: 'ManageSubscriptions' },
                   {headerLeft: null},
                   {headerShown: false}
                   }
