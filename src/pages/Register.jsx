@@ -42,7 +42,7 @@ export default function Register({ navigation }) {
                     .doc(uid)
                     .set(data)
                     .then(() => {
-                        navigation.navigate('MainTabNavigator');
+                        navigation.navigate('Home');
                     })
                     .catch((error) => {
                         alert(error)

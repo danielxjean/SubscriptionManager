@@ -35,7 +35,7 @@ export default function Login({ navigation }) {
                             return;
                         }
                         const user = firestoreDocument.data()
-                        navigation.navigate('MainTabNavigator')
+                        navigation.navigate('Home')
                     })
                     .catch(error => {
                         alert(error)

@@ -74,17 +74,17 @@ export default function AddSubscription({navigation}) {
       setPackages([9.99 ])
       setCategory(2)
     }
-    if(serviceName==10) {
+    if(serviceName==11) {
       setSubscriptionName("Nintendo Online")
       setPackages([3.99 ])
       setCategory(2)
     }
-    if(serviceName==11) {
+    if(serviceName==12) {
       setSubscriptionName("Google Stadia")
       setPackages([9.99 ])
       setCategory(2)
     }
-    if(serviceName==12) {
+    if(serviceName==13) {
       setSubscriptionName("Chegg")
       setPackages([14.95 ,19.95 ])
       setCategory(3)
@@ -309,7 +309,6 @@ const styles = StyleSheet.create({
     marginLeft: 30,
     marginRight: 30,
     width: '25%',
-    borderColor: 'black'
   },
   dropdown: {
     height: 48,
