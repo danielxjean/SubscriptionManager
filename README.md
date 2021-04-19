@@ -7,6 +7,6 @@
 | 40094330   | Basile 	  | Fengos  |  |
 | 40095921   | Daniel    | Esguerra    |danielxjean    |
 | 40098177   | David     | Rady    |    |
-| 40093011   | Patrick     | Godbout    |    |
+| 40093011   | Patrick     | Godbout    |patrickgdbt    |
 | 40096755   | Thapan     | Thambu    |    |
 
