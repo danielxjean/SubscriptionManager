@@ -76,7 +76,7 @@ export default function ManageSubscriptions({navigation}) {
 
     for(var i=0;i<user.services.length;i++)
       if(user.services[i].Service==currService)
-       user.services[i].packages=monthlyCost
+       user.services[i].packages=parseInt(monthlyCost)
     firebase.firestore().collection('users').doc(currentUser.uid).set(user).then(()=>fetchData())
     hideDialog()
   }
@@ -116,16 +116,16 @@ export default function ManageSubscriptions({navigation}) {
                 <Dialog.ScrollArea style={{justifyContent: 'center',alignItems:'center'}}>
                   <ScrollView>
                     <View style={{flex:1}}>
-                        <TextInput
-                            style={styles.input}
-                            placeholder='Monthly cost'
-                            keyboardType='numeric'
-                            placeholderTextColor="white"
-                            onChangeText={(text) => setMonthlyCost(text)}
-                            value={monthlyCost}
-                            underlineColorAndroid="transparent"
-                            autoCapitalize="none"
-                        />
+                      <TextInput
+                          style={styles.input}
+                          placeholder='Monthly cost'
+                          keyboardType='numeric'
+                          placeholderTextColor="white"
+                          onChangeText={(text) => setMonthlyCost(text)}
+                          value={monthlyCost}
+                          underlineColorAndroid="transparent"
+                          autoCapitalize="none"
+                      />
                     </View>
                   </ScrollView>
                 </Dialog.ScrollArea>
