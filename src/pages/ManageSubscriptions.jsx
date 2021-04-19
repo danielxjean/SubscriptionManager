@@ -91,13 +91,27 @@ export default function ManageSubscriptions({navigation}) {
     });
     hideDialog()
   }
+
   const deleteCurrService = ()=>{
-    firebase.firestore()
-    .collection('users')
-    .doc(currentUser.uid)
-    .update({
-      services: firebase.firestore.FieldValue.arrayRemove(deleteService),
-    }).then(()=>fetchData())
+    var docRef = db.collection("users").doc(currentUser.uid);
+    docRef.get().then((doc) => {
+      if (doc.exists) {
+        let temp=doc.data();
+        for(var i=0;i<temp.services.length;i++)
+          if(temp.services[i].Service==currService)
+            firebase.firestore()
+            .collection('users')
+            .doc(currentUser.uid)
+            .update({
+              services: firebase.firestore.FieldValue.arrayRemove(temp.services[i]),
+            }).then(()=>fetchData())
+      } else {
+        // doc.data() will be undefined in this case
+        console.log("No such document!");
+      }
+    }).catch((error) => {
+      console.log("Error getting document:", error);
+    });
     hideDialog()
   }
   const onChangeSearch = query => setSearchQuery(query)
