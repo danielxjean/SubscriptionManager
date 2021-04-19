@@ -70,17 +70,28 @@ export default function ManageSubscriptions({navigation}) {
       console.log("Error getting document:", error);
     });
   }
-  const setChosenPackage = (choice)=>setMonthlyCost(packages[choice]);
-  const updateMonthlyCost = ()=>{
 
-    for(var i=0;i<user.services.length;i++)
-      if(user.services[i].Service==currService)
-       user.services[i].packages=parseInt(monthlyCost)
-    firebase.firestore().collection('users').doc(currentUser.uid).set(user).then(()=>fetchData())
+  const setChosenPackage = (choice)=>setMonthlyCost(packages[choice]);
+
+  const updateMonthlyCost = ()=>{
+    var docRef = db.collection("users").doc(currentUser.uid);
+    docRef.get().then((doc) => {
+      if (doc.exists) {
+        let temp=doc.data();
+        for(var i=0;i<temp.services.length;i++)
+          if(temp.services[i].Service==currService)
+            temp.services[i].packages=parseFloat(monthlyCost)
+        firebase.firestore().collection('users').doc(currentUser.uid).set(temp).then(()=>fetchData())
+      } else {
+        // doc.data() will be undefined in this case
+        console.log("No such document!");
+      }
+    }).catch((error) => {
+      console.log("Error getting document:", error);
+    });
     hideDialog()
   }
   const deleteCurrService = ()=>{
-
     firebase.firestore()
     .collection('users')
     .doc(currentUser.uid)

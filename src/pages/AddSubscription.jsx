@@ -98,7 +98,7 @@ export default function AddSubscription({navigation}) {
   const addSubscription = () => {
     const subscription = {
       Service: subscriptionName,
-      packages: parseInt(monthlyCost),
+      packages: parseFloat(monthlyCost),
       Category: category,
       Date: paymentDate
     };
