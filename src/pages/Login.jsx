@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, TouchableOpacity, ImageBackground, TextInput } from 'react-native';
+import {Dimensions,ScrollView, View, StyleSheet, TouchableOpacity, ImageBackground, TextInput } from 'react-native';
 import { Header, Button, Text, colors } from 'react-native-elements';
 import { emailValidator } from '../helpers/emailValidator';
 import { passwordValidator } from '../helpers/passwordValidator';
@@ -35,7 +35,7 @@ export default function Login({ navigation }) {
                             return;
                         }
                         const user = firestoreDocument.data()
-                        navigation.navigate('Home')
+                        navigation.navigate('MainTabNavigator')
                     })
                     .catch(error => {
                         alert(error)
@@ -47,7 +47,7 @@ export default function Login({ navigation }) {
   }
 
   return (
-      <View style={{backgroundColor: '#40DF9F', height: '100%'}}>
+      <ScrollView style={{ height: '100%'}}>
           <WavyHeader customStyles={styles.svgCurve} />
           <View style={styles.headerContainer}>
             <Text style={styles.headerText}>Subscription Manager</Text>
@@ -96,7 +96,7 @@ export default function Login({ navigation }) {
             </View>
 
           </View>
-    </View>
+    </ScrollView>
   )
 }
 
@@ -138,8 +138,7 @@ const styles = StyleSheet.create({
   },
   svgCurve: {
     position: 'absolute',
-    width: '100%',
-    height: '20%'
+    width: Dimensions.get('window').width,
   },
   headerText: {
     fontSize: 25,

@@ -1,7 +1,8 @@
-import React, {useEffect} from "react";
-import {ScrollView, View, Text,StyleSheet, TouchableOpacity, Alert } from "react-native";
-import {Avatar,Divider,IconButton, List, Searchbar, Card,Button,Title, Paragraph, Dialog, Portal,Provider } from 'react-native-paper';
+import React, {useEffect,useState} from "react";
+import {ScrollView, View, Text,StyleSheet,TextInput, TouchableOpacity, Alert } from "react-native";
+import {Avatar,Divider,IconButton, List, Searchbar, Card,Button,Title, Paragraph, Dialog, Portal,Provider,RadioButton } from 'react-native-paper';
 import { LinearGradient } from 'expo-linear-gradient';
+import ModalDropdown from 'react-native-modal-dropdown';
 import EntertainmentIcon from '../styles/icon/EntertainmentIcon.png'
 import MusicIcon from '../styles/icon/MusicIcon.png'
 import GamingIcon from '../styles/icon/GamingIcon.png'
@@ -15,10 +16,14 @@ import {db,firebase} from "../../database/firebase";
 export default function ManageSubscriptions({navigation}) {
   const [searchQuery, setSearchQuery] = React.useState('');
   const [user,setUser]= React.useState();
+  const [currService,setCurrService]= React.useState('');
+  const [value, setValue] = React.useState(true);
   const [visible, setVisible] = React.useState(false);
+  const [monthlyCost, setMonthlyCost] = React.useState('');
+  const [packages, setPackages] = React.useState([10]);
   const currentUser = firebase.auth().currentUser;
 
-  const showDialog = () => setVisible(true);
+  const showDialog = () => {setVisible(true)};
 
   const hideDialog = () => setVisible(false);
 
@@ -26,6 +31,10 @@ export default function ManageSubscriptions({navigation}) {
   const addSubscription = () =>navigation.navigate('AddSubscription');
 
   useEffect(()=>{
+    fetchData()
+  },[]);
+
+  const fetchData = async =>{
     var docRef = db.collection("users").doc(currentUser.uid);
 
     docRef.get().then((doc) => {
@@ -51,7 +60,6 @@ export default function ManageSubscriptions({navigation}) {
           }
         }
         setUser(temp)
-        console.log(temp)
         // console.log("Document data:", doc.data());
       } else {
         // doc.data() will be undefined in this case
@@ -60,22 +68,23 @@ export default function ManageSubscriptions({navigation}) {
     }).catch((error) => {
       console.log("Error getting document:", error);
     });
-  },[]);
+  }
   const deleteService = () =>
       Alert.alert("Button for deleting service (TODO!)");
+  const setChosenPackage = (choice)=>setMonthlyCost(packages[choice]);
+  const updateMonthlyCost = ()=>{
 
-
+    for(var i=0;i<user.services.length;i++)
+      if(user.services[i].Service==currService)
+       user.services[i].packages=monthlyCost
+    firebase.firestore().collection('users').doc(currentUser.uid).set(user).then(()=>fetchData())
+    hideDialog()
+  }
   const onChangeSearch = query => setSearchQuery(query)
   return(
         <ScrollView style={styles.container}>
           <View style={{marginTop:15}}>
             <Text style={styles.text}>Manage Subscriptions Page</Text>
-          {/*<Searchbar*/}
-          {/*    style={styles.searchBar}*/}
-          {/*    inputContainerStyle={styles.searchText}*/}
-          {/*    placeholder="Search"*/}
-          {/*    onChangeText={onChangeSearch}*/}
-          {/*    value={searchQuery}/>*/}
           </View>
           {user &&user.services && user.services.map(user =>(
             <View key={user.usernam}>
@@ -85,7 +94,7 @@ export default function ManageSubscriptions({navigation}) {
             subtitleStyle={{color:"white"}}
             subtitle={user.Category}
             left={(props) => <Avatar.Image {...props} source={user.icon} />}
-            right={props => <IconButton {...props} icon="square-edit-outline" color={"white"} onPress={showDialog}/>}
+            right={props => <IconButton {...props} icon="square-edit-outline" color={"white"} onPress={()=>{setCurrService(user.Service);showDialog();}}/>}
             />
             <Divider style={styles.divider}/>
             </View>
@@ -102,12 +111,27 @@ export default function ManageSubscriptions({navigation}) {
           <Provider>
             <Portal>
               <Dialog visible={visible} onDismiss={hideDialog}>
-                <Dialog.Title>Edit Subscription</Dialog.Title>
-                <Dialog.Content>
-                  <Paragraph>Edit features not available</Paragraph>
-                </Dialog.Content>
+                <Dialog.Title>Edit {currService}</Dialog.Title>
+
+                <Dialog.ScrollArea style={{justifyContent: 'center',alignItems:'center'}}>
+                  <ScrollView>
+                    <View style={{flex:1}}>
+                        <TextInput
+                            style={styles.input}
+                            placeholder='Monthly cost'
+                            keyboardType='numeric'
+                            placeholderTextColor="white"
+                            onChangeText={(text) => setMonthlyCost(text)}
+                            value={monthlyCost}
+                            underlineColorAndroid="transparent"
+                            autoCapitalize="none"
+                        />
+                    </View>
+                  </ScrollView>
+                </Dialog.ScrollArea>
                 <Dialog.Actions>
-                  <Button onPress={hideDialog}>Done</Button>
+                  <Button onPress={hideDialog}>Delete</Button>
+                  <Button onPress={updateMonthlyCost}>Done</Button>
                 </Dialog.Actions>
               </Dialog>
             </Portal>
@@ -155,5 +179,20 @@ const styles = StyleSheet.create({
   },
   divider:{
     color:"white"
-  }
+  },
+  input: {
+    height: 48,
+    borderRadius: 5,
+    borderWidth: 1,
+    overflow: 'hidden',
+    backgroundColor: '#1A282F',
+    marginTop: 10,
+    marginBottom: 10,
+    marginLeft: 10,
+    marginRight: 10,
+    paddingLeft: 16,
+    paddingRight:16,
+    color: 'white',
+    borderColor: 'black'
+  },
 });

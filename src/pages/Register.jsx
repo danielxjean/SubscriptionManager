@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, TouchableOpacity, TextInput } from 'react-native';
+import { ScrollView,View, StyleSheet, TouchableOpacity, TextInput } from 'react-native';
 import { Button, Text } from 'react-native-elements';
 import { emailValidator } from '../helpers/emailValidator';
 import { passwordValidator } from '../helpers/passwordValidator';
@@ -42,7 +42,7 @@ export default function Register({ navigation }) {
                     .doc(uid)
                     .set(data)
                     .then(() => {
-                        navigation.navigate('Home');
+                        navigation.navigate('MainTabNavigator');
                     })
                     .catch((error) => {
                         alert(error)
@@ -54,7 +54,7 @@ export default function Register({ navigation }) {
     }
 
   return (
-    <View style={{height: '100%'}}>
+    <ScrollView style={{height: '100%'}}>
       <WavyHeader customStyles={styles.svgCurve} />
           <View style={styles.headerContainer}>
             <Text style={styles.headerText}>Subscription Manager</Text>
@@ -110,7 +110,7 @@ export default function Register({ navigation }) {
         </TouchableOpacity>
       </View>
     </View>
-    </View>
+    </ScrollView>
   )
 }
 

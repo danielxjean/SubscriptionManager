@@ -24,7 +24,7 @@ export default function Statistics({navigation,stats}) {
     return (
                  <Card style={styles.monthlyCard}>
                      <Card.Content>
-                        <Text style={styles.header}>Statistics</Text>
+                        <Text style={styles.header}>Cost Patrition per Category</Text>
                        {stats &&
                          <PieChart
                              data={stats}

@@ -98,7 +98,6 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-      {/* { user ? initialRouteName={}} */}
         { user ? (
             <>
             <Stack.Screen

@@ -47,22 +47,25 @@ export default function Home({navigation}) {
         //Calcutate sum
         let currSum=0;
         const UserInfo=doc.data().services
-        for(var i=0;i<UserInfo.length;i++)
-          currSum+=UserInfo[i].packages
-        setSum(currSum)
+        if(UserInfo) {
+          for (var i = 0; i < UserInfo.length; i++)
+            currSum += UserInfo[i].packages
+          setSum(currSum)
+        }
         //Calculate Category patrition
         let Service = doc.data().services
         setServices(Service)
-        for (var i = 0;i<Service.length;i++)
-        {
-          if(Service[i].Category==0)
-            data[0].cost+=Service[i].packages
-          if(Service[i].Category==1)
-            data[1].cost+=Service[i].packages
-          if(Service[i].Category==2)
-            data[2].cost+=Service[i].packages
-          if(Service[i].Category==3)
-            data[3].cost+=Service[i].packages
+        if(Service) {
+          for (var i = 0; i < Service.length; i++) {
+            if (Service[i].Category == 0)
+              data[0].cost += Service[i].packages
+            if (Service[i].Category == 1)
+              data[1].cost += Service[i].packages
+            if (Service[i].Category == 2)
+              data[2].cost += Service[i].packages
+            if (Service[i].Category == 3)
+              data[3].cost += Service[i].packages
+          }
         }
         setStats(data)
       } else {

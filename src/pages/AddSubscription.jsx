@@ -21,38 +21,73 @@ export default function AddSubscription({navigation}) {
     console.log(serviceName)
     if(serviceName==0) {
       setSubscriptionName("Netflix")
-      setPackages([5, 10, 15])
+      setPackages([9.99 , 14.99 , 18.99 ])
       setCategory(0)
     }
     if(serviceName==1) {
       setSubscriptionName("Amazon Prime")
-      setPackages([5, 15])
+      setPackages([3.99 , 7.99 ])
       setCategory(3)
     }
     if(serviceName==2) {
       setSubscriptionName("Spotify")
-      setPackages([11])
-      setCategory(2)
+      setPackages([4.99,9.99 ])
+      setCategory(1)
     }
     if(serviceName==3) {
       setSubscriptionName("Hulu")
-      setPackages([11])
+      setPackages([5.99,11.99,64.99])
       setCategory(0)
     }
     if(serviceName==4) {
       setSubscriptionName("Disney+")
-      setPackages([11])
+      setPackages([11.99])
       setCategory(0)
     }
     if(serviceName==5) {
       setSubscriptionName("Crave")
-      setPackages([11,20])
+      setPackages([9.99,9.99 +5.99,9.99 +9.99,9.99 +9.99+5.99,9.99 +9.99+9.99,9.99 +9.99+9.99 +5.99])
       setCategory(0)
     }
     if(serviceName==6) {
       setSubscriptionName("Apple Tv")
-      setPackages([5])
+      setPackages([5.99 ])
       setCategory(0)
+    }
+    if(serviceName==7) {
+      setSubscriptionName("Apple Music")
+      setPackages([4.99 ,9.99,14.99])
+      setCategory(1)
+    }
+    if(serviceName==8) {
+      setSubscriptionName("Xbox")
+      setPackages([1,9.99,11.99,14.99 ])
+      setCategory(2)
+    }
+    if(serviceName==9) {
+      setSubscriptionName("PS+")
+      setPackages([11.99])
+      setCategory(2)
+    }
+    if(serviceName==10) {
+      setSubscriptionName("PSNow")
+      setPackages([9.99 ])
+      setCategory(2)
+    }
+    if(serviceName==10) {
+      setSubscriptionName("Nintendo Online")
+      setPackages([3.99 ])
+      setCategory(2)
+    }
+    if(serviceName==11) {
+      setSubscriptionName("Google Stadia")
+      setPackages([9.99 ])
+      setCategory(2)
+    }
+    if(serviceName==12) {
+      setSubscriptionName("Chegg")
+      setPackages([14.95 ,19.95 ])
+      setCategory(3)
     }
     setMonthlyCost(0)
   }
@@ -92,7 +127,7 @@ export default function AddSubscription({navigation}) {
       console.log("Error getting document:", error);
     });
 
-    navigation.pop();
+    navigation.navigate('Menu');
   }
 
   const onChange = (event, selectedDate) => {
@@ -126,7 +161,7 @@ export default function AddSubscription({navigation}) {
         </View>
         {value?
             <ModalDropdown
-                options={['Netflix', 'Amazon Prime', 'Spotify','hulu','Disney+','Crave','Apple TV']}
+                options={['Netflix', 'Amazon Prime', 'Spotify','hulu','Disney+','Crave','Apple TV','Apple Music','Xbox','PS+','PSNow','Nintendo Online','Google Stadia','Chegg']}
                 defaultValue='Subscription name'
                 style={styles.dropdown}
                 onSelect={(text) => setDropDownPackages(text) }
