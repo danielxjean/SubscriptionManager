@@ -20,6 +20,7 @@ export default function ManageSubscriptions({navigation}) {
   const [value, setValue] = React.useState(true);
   const [visible, setVisible] = React.useState(false);
   const [monthlyCost, setMonthlyCost] = React.useState('');
+  const [deleteService, setDeleteService] = React.useState([]);
   const [packages, setPackages] = React.useState([10]);
   const currentUser = firebase.auth().currentUser;
 
@@ -69,8 +70,6 @@ export default function ManageSubscriptions({navigation}) {
       console.log("Error getting document:", error);
     });
   }
-  const deleteService = () =>
-      Alert.alert("Button for deleting service (TODO!)");
   const setChosenPackage = (choice)=>setMonthlyCost(packages[choice]);
   const updateMonthlyCost = ()=>{
 
@@ -78,6 +77,16 @@ export default function ManageSubscriptions({navigation}) {
       if(user.services[i].Service==currService)
        user.services[i].packages=parseInt(monthlyCost)
     firebase.firestore().collection('users').doc(currentUser.uid).set(user).then(()=>fetchData())
+    hideDialog()
+  }
+  const deleteCurrService = ()=>{
+
+    firebase.firestore()
+    .collection('users')
+    .doc(currentUser.uid)
+    .update({
+      services: firebase.firestore.FieldValue.arrayRemove(deleteService),
+    }).then(()=>fetchData())
     hideDialog()
   }
   const onChangeSearch = query => setSearchQuery(query)
@@ -94,7 +103,7 @@ export default function ManageSubscriptions({navigation}) {
             subtitleStyle={{color:"white"}}
             subtitle={user.Category}
             left={(props) => <Avatar.Image {...props} source={user.icon} />}
-            right={props => <IconButton {...props} icon="square-edit-outline" color={"white"} onPress={()=>{setCurrService(user.Service);showDialog();}}/>}
+            right={props => <IconButton {...props} icon="square-edit-outline" color={"white"} onPress={()=>{setDeleteService(user);setCurrService(user.Service);showDialog();}}/>}
             />
             <Divider style={styles.divider}/>
             </View>
@@ -130,7 +139,7 @@ export default function ManageSubscriptions({navigation}) {
                   </ScrollView>
                 </Dialog.ScrollArea>
                 <Dialog.Actions>
-                  <Button onPress={hideDialog}>Delete</Button>
+                  <Button onPress={deleteCurrService}>Delete</Button>
                   <Button onPress={updateMonthlyCost}>Done</Button>
                 </Dialog.Actions>
               </Dialog>
